@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kisha Kyle Samson — Résumé</title>
+  <!--
+    Harvard-format résumé. Edit the text below, then rebuild resume.pdf
+    (open this file in Chrome → Ctrl+P → "Save as PDF", margins "Default").
+  -->
+  <style>
+    @page { size: Letter; margin: 0.5in 0.65in; }
+
+    :root { --ink: #111; --rule: #111; }
+    * { box-sizing: border-box; }
+    html { background: #e9e9ec; }
+    body {
+      margin: 32px auto;
+      max-width: 8.5in;
+      padding: 0.5in 0.65in;
+      background: #fff;
+      color: var(--ink);
+      font-family: Garamond, "EB Garamond", "Times New Roman", serif;
+      font-size: 11pt;
+      line-height: 1.2;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+    }
+    @media print {
+      html { background: none; }
+      body { margin: 0; padding: 0; max-width: none; box-shadow: none; }
+    }
+    @media (max-width: 700px) {
+      body { margin: 0; padding: 24px 18px; box-shadow: none; }
+    }
+
+    header { text-align: center; margin-bottom: 6pt; }
+    h1 { margin: 0; font-size: 20pt; font-weight: 700; letter-spacing: 0.04em; }
+    .contact { margin: 3pt 0 0; font-size: 11pt; }
+    .contact a { color: inherit; text-decoration: none; }
+
+    h2 {
+      margin: 9pt 0 4pt;
+      padding-bottom: 1.5pt;
+      border-bottom: 1px solid var(--rule);
+      text-align: center;
+      font-size: 11.5pt;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .entry { margin: 0 0 5pt; break-inside: avoid; }
+    .row { display: flex; justify-content: space-between; gap: 12pt; }
+    .row > :last-child { text-align: right; white-space: nowrap; }
+    .org { font-weight: 700; }
+    .role { font-style: italic; }
+    ul { margin: 2pt 0 0; padding-left: 15pt; }
+    li { margin: 0 0 1.5pt; padding-left: 2pt; }
+    .tech { font-style: italic; padding-right: 1.5pt; }
+    .plain { margin: 0 0 2.5pt; }
+    .plain b { font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>KISHA KYLE SAMSON</h1>
+    <p class="contact">
+      Ormoc City, Leyte, Philippines&nbsp;•&nbsp;<a href="tel:+639501796797">0950 179 6797</a>&nbsp;•&nbsp;<a href="mailto:kishakylepc@gmail.com">kishakylepc@gmail.com</a>&nbsp;•&nbsp;<a href="https://github.com/kishakylepc-ui">github.com/kishakylepc-ui</a>
+    </p>
+  </header>
+
+  <section>
+    <h2>Education</h2>
+    <div class="entry">
+      <div class="row"><span class="org">Western Leyte College</span><span>Ormoc City, Leyte</span></div>
+      <div class="row"><span class="role">Bachelor of Science in Information Technology</span><span>3rd Year, Present</span></div>
+      <ul>
+        <li>Coursework in web and mobile development, database design and computer networking</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="row"><span class="org">STI College Ormoc</span><span>Ormoc City, Leyte</span></div>
+      <div class="row"><span class="role">Senior High School, graduated With Honors (GWA 93)</span><span>2020</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Experience</h2>
+    <div class="entry">
+      <div class="row"><span class="org">Online Arbitrage Sourcing Team</span><span>Remote</span></div>
+      <div class="row"><span class="role">Amazon Product Researcher &amp; Admin</span><span>Jul 2024 – Present</span></div>
+      <ul>
+        <li>Source products for Amazon sellers using Keepa and SellerAmp against a $3 profit / 30% ROI standard</li>
+        <li>Manage per-client sourcing sheets and administrative tasks for a two-person team</li>
+        <li>Built OA Ledger, a real-time shared tracker that replaced scattered per-client spreadsheets</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="row"><span class="org">Client Game Project</span><span>Remote</span></div>
+      <div class="row"><span class="role">Game Tester (QA)</span><span>May 2024 – Aug 2024</span></div>
+      <ul>
+        <li>Refined gameplay features with developers, improving user experience by 15%</li>
+        <li>Ran regression testing across platforms to keep performance consistent</li>
+        <li>Prioritized testing from user feedback, raising player satisfaction by 30%</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Projects</h2>
+    <div class="entry">
+      <div class="row"><span><span class="org">Hemo Hero</span> — blood-donor matching app</span><span class="tech">React Native, Expo, TypeScript, Node.js, Supabase</span></div>
+      <ul>
+        <li>Built a mobile app (Android, iPhone, web) that matches blood requests with nearby donors by blood-type compatibility and donation eligibility, with in-app chat, a live trip map and push notifications</li>
+        <li>Built an admin portal for donor verification, analytics, log trails and backups on one Node.js + Express API</li>
+        <li>Released version 1.2.0 over 82 commits, with 25 automated server test files and a shared changelog</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="row"><span><span class="org">OA Ledger</span> — shared sourcing tracker</span><span class="tech">JavaScript, Firebase, Netlify</span></div>
+      <ul>
+        <li>Real-time shared ledger with a brand and store leaderboard, price history and a 14-day recheck queue</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="row"><span><span class="org">CompAcc POS</span> — point-of-sale &amp; accounting system (school project, team of 2)</span><span class="tech">PHP, SQLite, JavaScript</span></div>
+      <ul>
+        <li>Checkout with size/color variants, VAT, discounts and split payments; trigger-synced inventory; payroll and user roles</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="row"><span><span class="org">Ledger//Life</span> — personal planner web app (choom.netlify.app)</span><span class="tech">JavaScript, PWA, Supabase</span></div>
+      <ul>
+        <li>Mobile-first planner for budgets, bills, tasks and savings goals with spending analytics; works offline</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Awards &amp; Certifications</h2>
+    <div class="entry">
+      <div class="row"><span><span class="org">Computer Systems Servicing NC II</span>, TESDA National Certificate</span><span></span></div>
+      <div class="row"><span><span class="org">Best in Computer Networking</span>, Award</span><span></span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Skills &amp; Interests</h2>
+    <p class="plain"><b>Programming:</b> Java, JavaScript, TypeScript, PHP, SQL; basic Python and C</p>
+    <p class="plain"><b>Tools:</b> React Native, Expo, Node.js, Express, Firebase, Supabase, SQLite, Git/GitHub, Netlify, MS Office</p>
+    <p class="plain"><b>Hardware:</b> computer systems servicing, computer networking</p>
+    <p class="plain"><b>Languages:</b> English, Tagalog, Bisaya</p>
+    <p class="plain"><b>Interests:</b> AI, game development, mobile development</p>
+  </section>
+
+</body>
+</html>
