@@ -14,7 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
   setupScrollReveal();
   setupGalleries();
   setupPortraitTilt();
-  setupCountUp();
+  setupWorkFlow();
+  setupScrollCue();
 
   document.getElementById("year").textContent = new Date().getFullYear();
 });
@@ -112,6 +113,7 @@ function setupProjectFilters() {
 
     countText.textContent = `Showing ${shown} of ${total} projects`;
     emptyState.hidden = shown !== 0;
+    document.dispatchEvent(new CustomEvent("projects:filtered"));
   });
 
   countText.textContent = `Showing ${total} of ${total} projects`;
@@ -534,30 +536,159 @@ function setupPortraitTilt() {
   });
 }
 
-/* ---------- Count the hero numbers up when they come into view ---------- */
-function setupCountUp() {
-  if (prefersReducedMotion()) return;
+/* ---------- Selected work: zig-zag layout, pinned project index, and curves between projects ---------- */
+function setupWorkFlow() {
+  const section = document.getElementById("work");
+  if (!section) return;
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        observer.unobserve(entry.target);
-        const el = entry.target;
-        const end = Number(el.dataset.count);
-        const start = performance.now();
-        const duration = 900;
-        const tick = (now) => {
-          const p = Math.min(1, (now - start) / duration);
-          el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        el.textContent = "0";
-        requestAnimationFrame(tick);
-      });
-    },
-    { threshold: 0.6 }
-  );
+  const projects = [...section.querySelectorAll(".project")];
+  const links = [...document.querySelectorAll("#workIndex a")];
+  const linkFor = (p) => links.find((a) => a.getAttribute("href") === `#${p.id}`);
+  const stacked = window.matchMedia("(max-width: 900px)");
+  const clamp = (v) => Math.min(1, Math.max(0, v));
+  const tintOf = (p) => getComputedStyle(p).getPropertyValue("--pt").trim() || "#FB923C";
+  let shown = [];
+  let curves = [];
+  let uid = 0;
 
-  document.querySelectorAll("[data-count]").forEach((el) => observer.observe(el));
+  // Let the text lines enter one after another
+  projects.forEach((p) => {
+    [...p.querySelector(".project-info").children].forEach((el, i) => el.style.setProperty("--i", i));
+  });
+
+  // Rebuild after filtering: flip every other project and put a curve between neighbours
+  function build() {
+    curves.forEach((c) => c.el.remove());
+    shown = projects.filter((p) => !p.hidden);
+    projects.forEach((p) => {
+      const a = linkFor(p);
+      if (a) a.hidden = p.hidden;
+    });
+    projects.forEach((p) => p.classList.toggle("is-flip", !p.hidden && shown.indexOf(p) % 2 === 1));
+    curves = shown.slice(0, -1).map((from, i) => {
+      const el = document.createElement("div");
+      el.className = "flow-link";
+      el.setAttribute("aria-hidden", "true");
+      from.after(el);
+      return { el, from, to: shown[i + 1] };
+    });
+    measure();
+  }
+
+  // Draw each curve from the bottom of one project's screenshots to the top of the next one's
+  function measure() {
+    curves.forEach((c) => {
+      const box = c.el.getBoundingClientRect();
+      const w = box.width;
+      const h = box.height;
+      const g1 = c.from.querySelector(".gallery").getBoundingClientRect();
+      const g2 = c.to.querySelector(".gallery").getBoundingClientRect();
+      const study = c.from.querySelector(".case-study");
+      const above = study && !study.hidden ? study.getBoundingClientRect().bottom : stacked.matches ? box.top : g1.bottom;
+      const y1 = Math.min(0, above - box.top + 14);
+      const y2 = stacked.matches ? h : Math.max(h, g2.top - box.top - 14);
+      let d;
+      let x1;
+      let x2;
+      if (stacked.matches) {
+        // Down the left edge, into the next project's number
+        const n = c.to.querySelector(".p-num").getBoundingClientRect();
+        x1 = x2 = n.left + n.width / 2 - box.left;
+        d = `M${x1} ${y1} C${x1 + 24} ${y1 + (y2 - y1) * 0.35}, ${x2 - 24} ${y1 + (y2 - y1) * 0.65}, ${x2} ${y2}`;
+      } else {
+        x1 = g1.left + g1.width / 2 - box.left;
+        x2 = g2.left + g2.width / 2 - box.left;
+        const mid = y1 + (y2 - y1) / 2;
+        d = `M${x1} ${y1} C${x1} ${mid}, ${x2} ${mid}, ${x2} ${y2}`;
+      }
+      const c1 = tintOf(c.from);
+      const c2 = tintOf(c.to);
+      const id = `flg${++uid}`;
+      c.el.innerHTML = `
+        <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+          <defs><linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="${y1}" x2="0" y2="${y2}">
+            <stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/>
+          </linearGradient></defs>
+          <path class="fl-track" d="${d}"/>
+          <path class="fl-draw" d="${d}" pathLength="1" stroke="url(#${id})"/>
+          <circle class="fl-end" cx="${x1}" cy="${y1}" r="4.5" stroke="${c1}"/>
+          <circle class="fl-end fl-end--to" cx="${x2}" cy="${y2}" r="4.5" stroke="${c2}"/>
+          <g class="fl-dot"><circle r="10" fill="${c2}" opacity="0.22"/><circle r="4.5" fill="#fff"/></g>
+        </svg>`;
+      c.draw = c.el.querySelector(".fl-draw");
+      c.dot = c.el.querySelector(".fl-dot");
+      c.endDot = c.el.querySelector(".fl-end--to");
+      c.len = c.draw.getTotalLength();
+      c.y1 = y1;
+      c.y2 = y2;
+      c.c2 = c2;
+    });
+    onScroll();
+  }
+
+  function onScroll() {
+    const vh = window.innerHeight;
+    const still = prefersReducedMotion();
+
+    // Curves fill in as they pass through the middle of the screen
+    curves.forEach((c) => {
+      if (!c.draw) return;
+      const top = c.el.getBoundingClientRect().top + c.y1;
+      const span = c.y2 - c.y1;
+      const p = still ? 1 : clamp((vh * 0.8 - top) / (vh * 0.4 + span));
+      c.draw.style.strokeDashoffset = String(1 - p);
+      const pt = c.draw.getPointAtLength(p * c.len);
+      c.dot.setAttribute("transform", `translate(${pt.x} ${pt.y})`);
+      c.el.classList.toggle("is-moving", p > 0.01 && p < 0.99);
+      c.endDot.style.fill = p >= 0.99 ? c.c2 : "";
+    });
+
+    // The project crossing the middle of the screen is "current"; the index shows how far through it you are
+    const mark = vh * 0.45;
+    const sec = section.getBoundingClientRect();
+    let current = null;
+    shown.forEach((p) => {
+      const r = p.getBoundingClientRect();
+      linkFor(p)?.style.setProperty("--prog", clamp((mark - r.top) / r.height).toFixed(3));
+      if (r.top <= mark) current = p;
+    });
+    if (sec.bottom < mark) current = null;
+    projects.forEach((p) => {
+      const on = p === current;
+      p.classList.toggle("is-current", on);
+      const a = linkFor(p);
+      if (a) {
+        a.classList.toggle("is-current", on);
+        if (on) a.setAttribute("aria-current", "true");
+        else a.removeAttribute("aria-current");
+      }
+    });
+  }
+
+  let frame = 0;
+  const schedule = (fn) => {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(fn);
+  };
+  window.addEventListener("scroll", () => schedule(onScroll), { passive: true });
+  window.addEventListener("resize", () => schedule(measure));
+  window.addEventListener("load", measure);
+  document.fonts?.ready.then(measure);
+  document.addEventListener("projects:filtered", build);
+  // Opening a case study or loading images changes heights, so re-measure
+  if ("ResizeObserver" in window) {
+    const ro = new ResizeObserver(() => schedule(measure));
+    projects.forEach((p) => ro.observe(p));
+  }
+
+  build();
+}
+
+/* ---------- Scroll cue: hide it once the visitor starts scrolling ---------- */
+function setupScrollCue() {
+  const cue = document.getElementById("scrollCue");
+  if (!cue) return;
+  const update = () => cue.classList.toggle("is-hidden", window.scrollY > 60);
+  window.addEventListener("scroll", update, { passive: true });
+  update();
 }

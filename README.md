@@ -6,10 +6,12 @@ A personal developer portfolio built with plain **HTML, CSS and JavaScript** (no
 
 ## Files
 - `index.html` — all the page content (projects, skills, experience, awards)
-- `style.css` — the look; the orange is `--accent` at the top (also update `--accent-rgb`, the same color as R, G, B)
+- `style.css` — the look; the orange is `--accent` at the top (also update `--accent-rgb`, the same color as R, G, B).
+  Fonts are `--font-head` (Bricolage Grotesque), `--font-body` (Geist) and `--font-mono` (Geist Mono),
+  loaded from Google Fonts in `index.html`. Each project's color is `--pt` on its `<article>` and its index link.
 - `resume.html` — your résumé in Harvard format; `resume.pdf` is made from it
 - `script.js` — the interactive parts: screenshot galleries and full-screen viewer, project & skill
-  filters, case studies, portrait tilt, copy-email, mobile menu
+  filters, case studies, the Selected work flow (index, curves), portrait tilt, scroll cue, copy-email, mobile menu
 - `images/kisha.jpg` — the photo in the hero
 - `images/projects/` — project screenshots (WebP)
 
