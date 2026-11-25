@@ -5,30 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kisha Kyle Samson — Developer Portfolio</title>
   <meta name="description" content="Kisha Kyle Samson, a 3rd-year IT student in Ormoc City who builds web and mobile apps: a blood-donor matching app, a sourcing ledger, a POS system and a personal planner.">
+  <meta name="theme-color" content="#101113">
+  <meta name="color-scheme" content="dark">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Geist:wght@400..700&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" type="image/webp" href="assets/img/portrait/kisha-fog-1500.webp" imagesrcset="assets/img/portrait/kisha-fog-900.webp 900w, assets/img/portrait/kisha-fog-1500.webp 1500w" imagesizes="(max-width: 900px) 120vw, 52vw">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
   <!-- ========== NAVIGATION ========== -->
   <header class="site-header" id="siteHeader">
     <div class="container nav">
-      <a href="#top" class="logo"><span class="accent">~/</span>kishakyle</a>
+      <a href="#top" class="logo" aria-label="Kisha Kyle Samson, back to top"><b>K</b>isha <b>K</b>yle <span class="logo-dim">Samson</span></a>
 
       <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
-        <span></span><span></span><span></span>
+        <span></span><span></span>
       </button>
 
       <nav aria-label="Main">
         <ul class="nav-links" id="navLinks">
-          <li><a href="#work">Work</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#work"><i>01</i>Work</a></li>
+          <li><a href="#skills"><i>02</i>Skills</a></li>
+          <li><a href="#experience"><i>03</i>Experience</a></li>
+          <li><a href="#about"><i>04</i>About</a></li>
+          <li><a href="#journey"><i>05</i>Journey</a></li>
+          <li><a href="#contact"><i>06</i>Contact</a></li>
         </ul>
       </nav>
     </div>
@@ -36,50 +40,72 @@
 
   <main>
 
-    <!-- ========== HERO ========== -->
+    <!-- ========== HERO ==========
+         Layers, back to front: the light behind the head and a band of mist → the portrait → low mist → text.
+         Layers with data-depth drift at their own speed as you scroll (script.js: setupHeroDepth). -->
     <section class="hero" id="top">
-      <div class="container hero-grid">
-        <div class="hero-text">
-          <p class="hello">Hi, I'm <strong>Kisha Kyle Samson</strong></p>
-          <h1>I build apps for the problems <span class="scribble">around me.<svg aria-hidden="true" viewBox="0 0 300 24" preserveAspectRatio="none"><path pathLength="1" d="M4 17 C 70 5, 170 3, 296 13"/></svg></span></h1>
+      <div class="hero-atmos" aria-hidden="true">
+        <span class="fog-light" data-depth="0.06"></span>
+        <span class="fog fog--far" data-depth="0.12"><i></i></span>
+      </div>
+
+      <!-- The photo: background removed, toned to grey and lit from behind (see README → Photos) -->
+      <figure class="hero-portrait" data-depth="0.1">
+        <picture>
+          <source type="image/webp" srcset="assets/img/portrait/kisha-fog-900.webp 900w, assets/img/portrait/kisha-fog-1500.webp 1500w" sizes="(max-width: 900px) 120vw, 52vw">
+          <img src="assets/img/portrait/kisha-fog.png" alt="Kisha Kyle Samson in a dark cap, silver sport sunglasses and a black rain jacket, looking to the side in the fog" width="1500" height="2045" fetchpriority="high">
+        </picture>
+      </figure>
+
+      <div class="hero-front" aria-hidden="true">
+        <span class="fog fog--near" data-depth="0.35"><i></i></span>
+      </div>
+
+      <div class="hero-copy">
+        <div class="hero-corner hero-corner--tl">
+          <p class="label"><span class="label-num">Portfolio</span> <span id="heroYear">2026</span></p>
+        </div>
+        <div class="hero-corner hero-corner--tr">
+          <p class="label">Ormoc City, PH</p>
+        </div>
+
+        <div class="hero-left">
+          <p class="label"><span class="label-num">01</span> Developer — web &amp; mobile</p>
+          <p class="hero-tagline">I build apps for the problems <em class="it">around me.</em></p>
           <p class="lead">
             I'm a 3rd-year IT student in Ormoc City, and I also work remotely doing Amazon product research.
             Most of my projects come from things I needed myself, like a <a href="#oa-ledger">shared tracker</a>
             for my sourcing team and a <a href="#planner">planner</a> for my budget. Right now I'm working on
             <a href="#hemo-hero">Hemo Hero</a>, an app that helps people find blood donors nearby.
           </p>
+        </div>
 
+        <div class="hero-right">
           <div class="hero-actions">
-            <a href="#work" class="btn btn-primary">See my work</a>
-            <a href="resume.pdf" class="btn btn-outline" target="_blank" rel="noopener">
-              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>
+            <a href="#work" class="btn btn-primary">See my work <span class="btn-arrow" aria-hidden="true">→</span></a>
+            <a href="resume/Kisha-Kyle-Samson-Resume.pdf" class="btn btn-outline" target="_blank" rel="noopener">
               Résumé
             </a>
             <a href="https://github.com/kishakylepc-ui" class="hero-link" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
           </div>
-
           <p class="availability"><span class="avail-dot" aria-hidden="true"></span>Open to internships and junior web or mobile roles</p>
         </div>
 
-        <!-- Portrait: tilts with the pointer -->
-        <figure class="portrait">
-          <div class="portrait-card" id="portraitCard">
-            <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">~/kishakyle/me.jpg</span></div>
-            <div class="portrait-media">
-              <div class="portrait-photo">
-                <img src="images/kisha.jpg" alt="Kisha Kyle Samson in a beige cap and a navy-and-white raglan tee, sitting in a café" width="960" height="1200">
-              </div>
-              <figcaption class="portrait-chip"><span class="chip-dot" aria-hidden="true"></span>Hi, I'm Kisha</figcaption>
-            </div>
-          </div>
-        </figure>
+        <!-- The name: each letter comes up out of the fog once, on load (script.js: setupNameLetters) -->
+        <div class="hero-title">
+          <p class="hello">Hi, I'm</p>
+          <h1 class="hero-name">
+            <span class="sr-only">Kisha Kyle Samson</span>
+            <span class="nm-line" aria-hidden="true"><span class="nm nm-1">Kisha</span> <span class="nm nm-2">Kyle</span></span>
+            <span class="nm-line nm-line--2" aria-hidden="true"><span class="nm nm-3">Samson</span></span>
+          </h1>
+        </div>
       </div>
 
       <!-- Scroll cue: fades out once you start scrolling (script.js: setupScrollCue) -->
       <a class="scroll-cue" href="#work" id="scrollCue">
-        <span class="mouse" aria-hidden="true"><i></i></span>
         <span class="scroll-text">Scroll to see my work</span>
-        <svg class="scroll-arrow" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        <span class="scroll-line" aria-hidden="true"><i></i></span>
       </a>
     </section>
 
@@ -93,252 +119,255 @@
         - Wide diagram:        add class "fit-contain" to the figure (shows the whole image)
       data-caption: "Title · description" (the part before the first · is bolded)
     -->
-    <section class="container section" id="work">
-      <div class="section-head">
-        <div>
-          <h2>Selected work</h2>
-          <p class="muted">From a blood-donor app to the planner I use every day. <span class="work-count" id="projectCount">Showing 4 of 4 projects</span></p>
+    <section class="work" id="work">
+      <div class="container section">
+        <div class="section-head reveal">
+          <div>
+            <p class="eyebrow"><span>01</span>Projects</p>
+            <h2 class="display display--work" data-split><span class="d-line">Selected</span> <span class="d-line d-indent"><em class="it">work</em></span></h2>
+            <p class="muted">From a blood-donor app to the planner I use every day. <span class="work-count" id="projectCount">Showing 4 of 4 projects</span></p>
+          </div>
+          <div class="chip-group" role="group" aria-label="Filter projects" id="projectFilters">
+            <button class="chip is-active" data-filter="all" aria-pressed="true">All</button>
+            <button class="chip" data-filter="web" aria-pressed="false">Web</button>
+            <button class="chip" data-filter="mobile" aria-pressed="false">Mobile</button>
+            <button class="chip" data-filter="database" aria-pressed="false">Database</button>
+            <button class="chip" data-filter="team" aria-pressed="false">Team project</button>
+          </div>
         </div>
-        <div class="chip-group" role="group" aria-label="Filter projects" id="projectFilters">
-          <button class="chip is-active" data-filter="all" aria-pressed="true">All</button>
-          <button class="chip" data-filter="web" aria-pressed="false">Web</button>
-          <button class="chip" data-filter="mobile" aria-pressed="false">Mobile</button>
-          <button class="chip" data-filter="database" aria-pressed="false">Database</button>
-          <button class="chip" data-filter="team" aria-pressed="false">Team project</button>
-        </div>
+
+        <!-- Project index: stays pinned while you scroll through the projects (script.js: setupWorkFlow) -->
+        <nav class="work-index" id="workIndex" aria-label="Jump to a project">
+          <a href="#hemo-hero"><span class="wi-num">01</span><span class="wi-text"><span class="wi-name">Hemo Hero</span><span class="wi-type">Blood-donor app</span></span><i class="wi-bar" aria-hidden="true"></i></a>
+          <a href="#oa-ledger"><span class="wi-num">02</span><span class="wi-text"><span class="wi-name">OA Ledger</span><span class="wi-type">Sourcing tracker</span></span><i class="wi-bar" aria-hidden="true"></i></a>
+          <a href="#compacc"><span class="wi-num">03</span><span class="wi-text"><span class="wi-name">CompAcc POS</span><span class="wi-type">Point of sale</span></span><i class="wi-bar" aria-hidden="true"></i></a>
+          <a href="#planner"><span class="wi-num">04</span><span class="wi-text"><span class="wi-name">Ledger//Life</span><span class="wi-type">Personal planner</span></span><i class="wi-bar" aria-hidden="true"></i></a>
+        </nav>
+
+        <!-- Project 1: Hemo Hero -->
+        <article class="project reveal" data-tags="mobile web database" id="hemo-hero">
+          <div class="project-row">
+            <div class="gallery" data-gallery aria-label="Hemo Hero screenshots">
+              <div class="stage">
+                <!-- The screens and demo are the real app running on made-up sample data (no real users) -->
+                <figure class="slide slide-video is-active" data-caption="Demo · the real app, from posting a request to the donor arriving (40 s, sample data)">
+                  <video src="assets/video/hemo-hero-demo.mp4" poster="assets/img/projects/hemo-hero/demo-poster.webp" muted loop playsinline controls preload="none" aria-label="Screen recording of the Hemo Hero app: Andrea's urgent B+ request is live, three verified donors offer to help, she chats with Marco and agrees on a time, follows him on the map until he arrives at the hospital, then searches for more donors nearby."></video>
+                </figure>
+                <figure class="slide" data-caption="Requester · home, the donors who offered, and the chat (sample data)">
+                  <div class="phones">
+                    <img class="phone" src="assets/img/projects/hemo-hero/home.webp" alt="Hemo Hero home screen showing an active B+ request with its progress, a donor on the way, and blood requests nearby" width="780" height="1688">
+                    <img class="phone" src="assets/img/projects/hemo-hero/offers.webp" alt="Request page listing three verified donors who offered to help, one accepted with an Open Chat button and two pending with Accept and Reject" width="780" height="1688">
+                    <img class="phone" src="assets/img/projects/hemo-hero/chat.webp" alt="Chat between the requester and the donor agreeing to meet at 3:30 PM, with an 'on the way' banner and a Track button" width="780" height="1688">
+                  </div>
+                </figure>
+                <figure class="slide" data-caption="On the day · live trip map, donor search and sign in (sample data)">
+                  <div class="phones">
+                    <img class="phone" src="assets/img/projects/hemo-hero/trip.webp" alt="Track Donor screen with an OpenStreetMap map of Ormoc City, the donor's route to the hospital and '4 min, 1.6 km away'" width="780" height="1688" loading="lazy">
+                    <img class="phone" src="assets/img/projects/hemo-hero/search.webp" alt="Search screen listing verified donors compatible with B+, with distance, availability and travel range" width="780" height="1688" loading="lazy">
+                    <img class="phone" src="assets/img/projects/hemo-hero/signin.webp" alt="Hemo Hero sign-in screen with a red header, a blood drop and the line 'Give blood. Save lives.'" width="780" height="1688" loading="lazy">
+                  </div>
+                </figure>
+                <figure class="slide" data-caption="Admin portal · what needs attention today, demand by blood type and recent activity (sample data)">
+                  <div class="browser">
+                    <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">Hemo-Hero · Admin Portal</span></div>
+                    <img src="assets/img/projects/hemo-hero/admin.webp" alt="Admin portal dashboard with pending applications, unresolved issues, urgent requests, user and donor totals, blood type demand bars and a recent activity list" width="1440" height="900" loading="lazy">
+                  </div>
+                </figure>
+                <figure class="slide" data-caption="Admin analytics · weekly requests, donations and system activity (sample data)">
+                  <div class="browser">
+                    <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">Hemo-Hero · Analytics</span></div>
+                    <img src="assets/img/projects/hemo-hero/analytics.webp" alt="Admin analytics page with overview totals and line charts of weekly requests, donations and logged activity" width="1440" height="900" loading="lazy">
+                  </div>
+                </figure>
+                <figure class="slide slide-doc" data-caption="System flow · from a donor joining to a completed donation">
+                  <div class="browser paper">
+                    <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">docs / system-flow-swimlanes</span></div>
+                    <img src="assets/img/projects/hemo-hero/flow.webp" alt="Swimlane diagram of the donation cycle across the requester, donor, API server, admin, Supabase and Expo push service" width="1400" height="1824" loading="lazy">
+                  </div>
+                </figure>
+                <figure class="slide fit-contain" data-caption="Database · all 19 tables on Supabase PostgreSQL">
+                  <div class="browser paper">
+                    <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">docs / entity-relationship-diagram</span></div>
+                    <img src="assets/img/projects/hemo-hero/erd.webp" alt="Entity relationship diagram of the 19 Hemo Hero tables, including users, blood requests, responses, trips and donations" width="2400" height="1355" loading="lazy">
+                  </div>
+                </figure>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="p-head"><span class="p-num" aria-hidden="true">01</span><p class="kicker">Mobile app + admin portal + API</p></div>
+              <h3>Hemo Hero</h3>
+              <p class="muted">When someone needs blood, Hemo Hero finds nearby donors who have a compatible blood type and are allowed to give again. They chat, agree on a time, and the requester can follow the donor on a live map. Every donor's ID is checked by an admin first.</p>
+              <dl class="p-facts"><div><dt>apps on one API</dt><dd>3</dd></div><div><dt>commits</dt><dd>82</dd></div><div><dt>latest release</dt><dd>1.2.0</dd></div></dl>
+              <ul class="tags"><li>React Native</li><li>Expo</li><li>TypeScript</li><li>Node.js</li><li>Express</li><li>Supabase</li><li>OpenStreetMap</li></ul>
+              <div class="project-actions">
+                <button class="btn btn-small toggle-case" aria-expanded="false">Read case study</button>
+                <button type="button" class="link open-gallery" data-slide="5">See the system flow →</button>
+              </div>
+              <p class="project-note">The screenshots and demo are the real app running on made-up sample data. The source code is private, but I'm happy to walk you through it on a call.</p>
+            </div>
+          </div>
+          <div class="case-study" hidden>
+            <div class="case-card"><p class="label">Problem</p><p>Finding blood fast usually means posting online and calling around, with no easy way to tell whether a donor is compatible, eligible to give again, or verified.</p></div>
+            <div class="case-card"><p class="label">What I built</p><p>A mobile app where someone posts an urgent or scheduled request, and nearby donors who can give offer to help. The two of them chat, agree on a time, follow the trip on a live map (OSRM routing) and rate each other afterward. Admins get a separate web portal for checking donor IDs, managing users, and viewing analytics, logs and backups. Both apps run on one Node.js + Express API over Supabase.</p></div>
+            <div class="case-card"><p class="label accent">Outcome</p><p>Released version 1.2.0 after 82 commits, with 25 automated server test files and one version number and changelog shared by all three apps. It runs on Android, iPhone and the web from one codebase, and the server closes expired requests by itself every 30 minutes.</p></div>
+          </div>
+        </article>
+
+        <!-- Project 2: OA Ledger -->
+        <article class="project reveal" data-tags="web database" id="oa-ledger">
+          <div class="project-row">
+            <div class="gallery" data-gallery aria-label="OA Ledger screenshots">
+              <div class="stage">
+                <!-- The real ledger is private: these screenshots are the real app running on made-up sample data -->
+                <figure class="slide is-active" data-caption="All products · profit, ROI, client sheets and gating in one table (sample data)">
+                  <div class="browser">
+                    <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">OA Ledger · All products</span></div>
+                    <img src="assets/img/projects/oa-ledger/products.webp" alt="OA Winners Ledger product table with buy and sell prices, profit and ROI badges, client sheet and gating chips, using sample products" width="1440" height="900" loading="lazy">
+                  </div>
+                </figure>
+                <figure class="slide" data-caption="Leaderboard · brands and stores ranked by how many good finds they give (sample data)">
+                  <div class="browser">
+                    <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">OA Ledger · Leaderboard</span></div>
+                    <img src="assets/img/projects/oa-ledger/leaderboard.webp" alt="OA Winners Ledger leaderboard ranking sample brands and stores by good products, average ROI, average profit and gating rate" width="1440" height="900" loading="lazy">
+                  </div>
+                </figure>
+                <figure class="slide" data-caption="Recheck queue · products that missed the bar come back after 14 days (sample data)">
+                  <div class="browser">
+                    <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">OA Ledger · Recheck queue</span></div>
+                    <img src="assets/img/projects/oa-ledger/recheck.webp" alt="OA Winners Ledger recheck queue listing sample products below the profit or ROI bar, with ROI trend and days since last check" width="1440" height="900" loading="lazy">
+                  </div>
+                </figure>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="p-head"><span class="p-num" aria-hidden="true">02</span><p class="kicker">Full-stack web app · Private tool</p></div>
+              <h3>OA Ledger</h3>
+              <p class="muted">My sourcing job used to mean a separate spreadsheet for every client. I built one shared ledger instead. My teammate and I edit it live, old finds come back for a recheck, and a leaderboard shows which brands are worth our time.</p>
+              <dl class="p-facts"><div><dt>people editing live</dt><dd>2</dd></div><div><dt>between rechecks</dt><dd>14 days</dd></div><div><dt>edits still save</dt><dd>Offline</dd></div></dl>
+              <ul class="tags"><li>JavaScript</li><li>Firebase</li><li>Netlify</li><li>REST API</li></ul>
+              <div class="project-actions">
+                <button class="btn btn-small toggle-case" aria-expanded="false">Read case study</button>
+              </div>
+              <p class="project-note">Only the sourcing team can sign in, so there's no public link. The screenshots show the real app with made-up sample data.</p>
+            </div>
+          </div>
+          <div class="case-study" hidden>
+            <div class="case-card"><p class="label">Problem</p><p>Every client had their own spreadsheet. Rechecking old finds meant digging through all of them, and there was no easy way to see which brands kept paying off.</p></div>
+            <div class="case-card"><p class="label">What I built</p><p>A shared Firebase app we both edit live, with a leaderboard of brands and stores (finds, average ROI, gating rate), price history on every recheck, and product photos. It's hosted free on Netlify.</p></div>
+            <div class="case-card"><p class="label accent">Outcome</p><p>One live ledger replaced the per-client spreadsheets. Both teammates edit it at the same time (even offline), past finds come back for a recheck every 14 days, and the leaderboard shows which brands and stores are worth digging into next.</p></div>
+          </div>
+        </article>
+
+        <!-- Project 3: CompAcc POS -->
+        <article class="project reveal" data-tags="web database team" id="compacc">
+          <div class="project-row">
+            <div class="gallery" data-gallery aria-label="CompAcc POS screenshots">
+              <div class="stage">
+                <figure class="slide is-active" data-caption="Checkout · color and size variants, VAT and split payments">
+                  <div class="browser">
+                    <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">localhost:8000/pos/</span></div>
+                    <img src="assets/img/projects/compacc-pos/pos.webp" alt="CompAcc point-of-sale screen with product cards, color and size pickers, and a cart totaling 3,388 pesos with VAT" width="1440" height="900" loading="lazy">
+                  </div>
+                </figure>
+                <figure class="slide" data-caption="Dashboard · today's sales, restock alerts and recent transactions">
+                  <div class="browser">
+                    <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">localhost:8000/dashboard/</span></div>
+                    <img src="assets/img/projects/compacc-pos/dashboard.webp" alt="CompAcc dashboard with sales, transactions, restock and out-of-stock counters" width="1440" height="900" loading="lazy">
+                  </div>
+                </figure>
+                <figure class="slide" data-caption="Inventory · stock tracked per color and size">
+                  <div class="browser">
+                    <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">localhost:8000/inventory/</span></div>
+                    <img src="assets/img/projects/compacc-pos/inventory.webp" alt="CompAcc inventory table listing products with variant stock, category, price and status" width="1440" height="900" loading="lazy">
+                  </div>
+                </figure>
+                <figure class="slide" data-caption="Reports · sales, VAT, discounts and payment methods">
+                  <div class="browser">
+                    <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">localhost:8000/reports/</span></div>
+                    <img src="assets/img/projects/compacc-pos/reports.webp" alt="CompAcc reports page showing transactions, items sold, total sales and payment methods" width="1440" height="900" loading="lazy">
+                  </div>
+                </figure>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="p-head"><span class="p-num" aria-hidden="true">03</span><p class="kicker">School project · Team of 2</p></div>
+              <h3>CompAcc POS</h3>
+              <p class="muted">The cash register, stock room and payroll of a small clothing shop, in one app. It tracks every size and color, adds VAT, applies senior and PWD discounts, and takes cash and GCash in the same sale.</p>
+              <dl class="p-facts"><div><dt>commits are mine</dt><dd>37 / 49</dd></div><div><dt>user roles</dt><dd>3</dd></div><div><dt>runs offline</dt><dd>1 PC</dd></div></dl>
+              <ul class="tags"><li>PHP</li><li>SQLite</li><li>JavaScript</li><li>CSS</li><li>Git</li></ul>
+              <div class="project-actions">
+                <button class="btn btn-small toggle-case" aria-expanded="false">Read case study</button>
+                <a href="https://github.com/kishakylepc-ui/CompAcc_POS" target="_blank" rel="noopener" class="link">View on GitHub →</a>
+              </div>
+              <p class="disclaimer">
+                <span><b>Disclaimer:</b> CompAcc POS is a school project. The store name and logo in the screenshots are used only as a sample business. It isn't affiliated with, endorsed by or used by Underground Apparel.</span>
+              </p>
+            </div>
+          </div>
+          <div class="case-study" hidden>
+            <div class="case-card"><p class="label">The brief</p><p>Build one system a small clothing store could use for selling, tracking stock by size and color, paying staff and seeing whether the business is actually profitable.</p></div>
+            <div class="case-card"><p class="label">What I built</p><p>Checkout with variants, barcodes, VAT and PWD/Senior discounts, and split payments (cash + GCash, Maya or MariBank); inventory kept in sync by database triggers; supplier restocking; payroll with validation rules; Admin/Manager/Cashier roles with login lockout; activity logs; light and dark mode.</p></div>
+            <div class="case-card"><p class="label accent">Outcome</p><p>49 commits on GitHub — 37 of them mine — built with feature branches. Runs offline on a single Windows PC with PHP's built-in server and SQLite, no XAMPP needed.</p></div>
+          </div>
+        </article>
+
+        <!-- Project 4: Personal Planner (Ledger//Life) -->
+        <article class="project reveal" data-tags="web mobile" id="planner">
+          <div class="project-row">
+            <div class="gallery" data-gallery aria-label="Ledger//Life screenshots">
+              <div class="stage">
+                <figure class="slide is-active" data-caption="Desktop · safe-to-spend, budgets and goals at a glance (sample data)">
+                  <div class="browser">
+                    <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">Ledger//Life · Home</span></div>
+                    <img src="assets/img/projects/ledger-life/desktop.webp" alt="Ledger//Life desktop home with a neon safe-to-spend total, a 7-day timeline, budget bars and a savings goal ring" width="1440" height="900" loading="lazy">
+                  </div>
+                </figure>
+                <figure class="slide" data-caption="Phone · home, bills and savings goals (sample data)">
+                  <div class="phones">
+                    <img class="phone" src="assets/img/projects/ledger-life/home.webp" alt="Ledger//Life phone home screen showing safe to spend and the next 7 days" width="780" height="1688" loading="lazy">
+                    <img class="phone" src="assets/img/projects/ledger-life/dues.webp" alt="Ledger//Life dues screen listing overdue and upcoming bills with Pay buttons" width="780" height="1688" loading="lazy">
+                    <img class="phone" src="assets/img/projects/ledger-life/goals.webp" alt="Ledger//Life goals screen with progress rings for an emergency fund, a laptop and a Christmas fund" width="780" height="1688" loading="lazy">
+                  </div>
+                </figure>
+                <figure class="slide" data-caption="Phone · wallet and spending stats (sample data)">
+                  <div class="phones">
+                    <img class="phone" src="assets/img/projects/ledger-life/wallet.webp" alt="Ledger//Life wallet screen with monthly category budgets" width="780" height="1688" loading="lazy">
+                    <img class="phone" src="assets/img/projects/ledger-life/stats.webp" alt="Ledger//Life stats screen with a spending donut and a 6-month income versus spending chart" width="780" height="1688" loading="lazy">
+                  </div>
+                </figure>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="p-head"><span class="p-num" aria-hidden="true">04</span><p class="kicker">Mobile-first web app</p></div>
+              <h3>Personal Planner <span class="muted-title">Ledger//Life</span></h3>
+              <p class="muted">I had my budget in one app, bills in another and reminders in my head. Ledger//Life puts them all in one place and tells me how much I can safely spend today. I use it every day on my iPhone and laptop.</p>
+              <dl class="p-facts"><div><dt>on my iPhone</dt><dd>Daily</dd></div><div><dt>works without signal</dt><dd>Offline</dd></div><div><dt>installs like an app</dt><dd>PWA</dd></div></dl>
+              <ul class="tags"><li>JavaScript</li><li>Netlify</li><li>PWA</li><li>Supabase</li></ul>
+              <div class="project-actions">
+                <button class="btn btn-small toggle-case" aria-expanded="false">Read case study</button>
+                <a href="https://choom.netlify.app" target="_blank" rel="noopener" class="link">Live demo ↗</a>
+              </div>
+              <p class="project-note">Tip: in the live demo, tap ⚙ → <b>Load sample data</b> to see it filled in. Anything you add stays on your own device.</p>
+            </div>
+          </div>
+          <div class="case-study" hidden>
+            <div class="case-card"><p class="label">Problem</p><p>My budget, bills, tasks and reminders lived in different apps that didn't talk to each other.</p></div>
+            <div class="case-card"><p class="label">What I built</p><p>One mobile-first web app with a safe-to-spend number for the day, spending charts, savings goals and account cards I can customize.</p></div>
+            <div class="case-card"><p class="label accent">Outcome</p><p>Live at choom.netlify.app and installed on my iPhone's home screen. It works offline, and an optional sign-in syncs it between my phone and laptop.</p></div>
+          </div>
+        </article>
+
+        <p class="empty-state" id="emptyState" hidden>No projects in this category yet.</p>
       </div>
-
-      <!-- Project index: stays pinned while you scroll through the projects (script.js: setupWorkFlow) -->
-      <nav class="work-index" id="workIndex" aria-label="Jump to a project">
-        <a href="#hemo-hero" style="--pt: #F43F5E"><span class="wi-num">01</span><span class="wi-text"><span class="wi-name">Hemo Hero</span><span class="wi-type">Blood-donor app</span></span><i class="wi-bar" aria-hidden="true"></i></a>
-        <a href="#oa-ledger" style="--pt: #8EA6FF"><span class="wi-num">02</span><span class="wi-text"><span class="wi-name">OA Ledger</span><span class="wi-type">Sourcing tracker</span></span><i class="wi-bar" aria-hidden="true"></i></a>
-        <a href="#compacc" style="--pt: #D9B77E"><span class="wi-num">03</span><span class="wi-text"><span class="wi-name">CompAcc POS</span><span class="wi-type">Point of sale</span></span><i class="wi-bar" aria-hidden="true"></i></a>
-        <a href="#planner" style="--pt: #F2DF3A"><span class="wi-num">04</span><span class="wi-text"><span class="wi-name">Ledger//Life</span><span class="wi-type">Personal planner</span></span><i class="wi-bar" aria-hidden="true"></i></a>
-      </nav>
-
-      <!-- Project 1: Hemo Hero -->
-      <article class="project reveal" data-tags="mobile web database" style="--pt: #F43F5E" id="hemo-hero">
-        <div class="project-row">
-          <div class="gallery" data-gallery style="--tint: #E11D2E" aria-label="Hemo Hero screenshots">
-            <div class="stage">
-              <!-- The screens and demo are the real app running on made-up sample data (no real users) -->
-              <figure class="slide slide-video is-active" data-caption="Demo · the real app, from posting a request to the donor arriving (40 s, sample data)">
-                <video src="images/projects/hemohero-demo.mp4" poster="images/projects/hemohero-demo.webp" muted loop playsinline controls preload="none" aria-label="Screen recording of the Hemo Hero app: Andrea's urgent B+ request is live, three verified donors offer to help, she chats with Marco and agrees on a time, follows him on the map until he arrives at the hospital, then searches for more donors nearby."></video>
-              </figure>
-              <figure class="slide" data-caption="Requester · home, the donors who offered, and the chat (sample data)">
-                <div class="phones">
-                  <img class="phone" src="images/projects/hemohero-home.webp" alt="Hemo Hero home screen showing an active B+ request with its progress, a donor on the way, and blood requests nearby" width="780" height="1688">
-                  <img class="phone" src="images/projects/hemohero-offers.webp" alt="Request page listing three verified donors who offered to help, one accepted with an Open Chat button and two pending with Accept and Reject" width="780" height="1688">
-                  <img class="phone" src="images/projects/hemohero-chat.webp" alt="Chat between the requester and the donor agreeing to meet at 3:30 PM, with an 'on the way' banner and a Track button" width="780" height="1688">
-                </div>
-              </figure>
-              <figure class="slide" data-caption="On the day · live trip map, donor search and sign in (sample data)">
-                <div class="phones">
-                  <img class="phone" src="images/projects/hemohero-trip.webp" alt="Track Donor screen with an OpenStreetMap map of Ormoc City, the donor's route to the hospital and '4 min, 1.6 km away'" width="780" height="1688" loading="lazy">
-                  <img class="phone" src="images/projects/hemohero-search.webp" alt="Search screen listing verified donors compatible with B+, with distance, availability and travel range" width="780" height="1688" loading="lazy">
-                  <img class="phone" src="images/projects/hemohero-signin.webp" alt="Hemo Hero sign-in screen with a red header, a blood drop and the line 'Give blood. Save lives.'" width="780" height="1688" loading="lazy">
-                </div>
-              </figure>
-              <figure class="slide" data-caption="Admin portal · what needs attention today, demand by blood type and recent activity (sample data)">
-                <div class="browser">
-                  <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">Hemo-Hero · Admin Portal</span></div>
-                  <img src="images/projects/hemohero-admin.webp" alt="Admin portal dashboard with pending applications, unresolved issues, urgent requests, user and donor totals, blood type demand bars and a recent activity list" width="1440" height="900" loading="lazy">
-                </div>
-              </figure>
-              <figure class="slide" data-caption="Admin analytics · weekly requests, donations and system activity (sample data)">
-                <div class="browser">
-                  <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">Hemo-Hero · Analytics</span></div>
-                  <img src="images/projects/hemohero-analytics.webp" alt="Admin analytics page with overview totals and line charts of weekly requests, donations and logged activity" width="1440" height="900" loading="lazy">
-                </div>
-              </figure>
-              <figure class="slide slide-doc" data-caption="System flow · from a donor joining to a completed donation">
-                <div class="browser paper">
-                  <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">docs / system-flow-swimlanes</span></div>
-                  <img src="images/projects/hemohero-flow.webp" alt="Swimlane diagram of the donation cycle across the requester, donor, API server, admin, Supabase and Expo push service" width="1400" height="1824" loading="lazy">
-                </div>
-              </figure>
-              <figure class="slide fit-contain" data-caption="Database · all 19 tables on Supabase PostgreSQL">
-                <div class="browser paper">
-                  <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">docs / entity-relationship-diagram</span></div>
-                  <img src="images/projects/hemohero-erd.webp" alt="Entity relationship diagram of the 19 Hemo Hero tables, including users, blood requests, responses, trips and donations" width="2400" height="1355" loading="lazy">
-                </div>
-              </figure>
-            </div>
-          </div>
-          <div class="project-info">
-            <div class="p-head"><span class="p-num" aria-hidden="true">01</span><p class="kicker">Mobile app + admin portal + API</p></div>
-            <h3>Hemo Hero</h3>
-            <p class="muted">When someone needs blood, Hemo Hero finds nearby donors who have a compatible blood type and are allowed to give again. They chat, agree on a time, and the requester can follow the donor on a live map. Every donor's ID is checked by an admin first.</p>
-            <dl class="p-facts"><div><dt>apps on one API</dt><dd>3</dd></div><div><dt>commits</dt><dd>82</dd></div><div><dt>latest release</dt><dd>1.2.0</dd></div></dl>
-            <ul class="tags"><li>React Native</li><li>Expo</li><li>TypeScript</li><li>Node.js</li><li>Express</li><li>Supabase</li><li>OpenStreetMap</li></ul>
-            <div class="project-actions">
-              <button class="btn btn-small toggle-case" aria-expanded="false">Read case study</button>
-              <button type="button" class="link open-gallery" data-slide="5">See the system flow →</button>
-            </div>
-            <p class="project-note">The screenshots and demo are the real app running on made-up sample data. The source code is private, but I'm happy to walk you through it on a call.</p>
-          </div>
-        </div>
-        <div class="case-study" hidden>
-          <div class="case-card"><p class="label">Problem</p><p>Finding blood fast usually means posting online and calling around, with no easy way to tell whether a donor is compatible, eligible to give again, or verified.</p></div>
-          <div class="case-card"><p class="label">What I built</p><p>A mobile app where someone posts an urgent or scheduled request, and nearby donors who can give offer to help. The two of them chat, agree on a time, follow the trip on a live map (OSRM routing) and rate each other afterward. Admins get a separate web portal for checking donor IDs, managing users, and viewing analytics, logs and backups. Both apps run on one Node.js + Express API over Supabase.</p></div>
-          <div class="case-card"><p class="label accent">Outcome</p><p>Released version 1.2.0 after 82 commits, with 25 automated server test files and one version number and changelog shared by all three apps. It runs on Android, iPhone and the web from one codebase, and the server closes expired requests by itself every 30 minutes.</p></div>
-        </div>
-      </article>
-
-      <!-- Project 2: OA Ledger -->
-      <article class="project reveal" data-tags="web database" style="--pt: #8EA6FF" id="oa-ledger">
-        <div class="project-row">
-          <div class="gallery" data-gallery style="--tint: #7C9CFF" aria-label="OA Ledger screenshots">
-            <div class="stage">
-              <!-- The real ledger is private: these screenshots are the real app running on made-up sample data -->
-              <figure class="slide is-active" data-caption="All products · profit, ROI, client sheets and gating in one table (sample data)">
-                <div class="browser">
-                  <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">OA Ledger · All products</span></div>
-                  <img src="images/projects/oaledger-products.webp" alt="OA Winners Ledger product table with buy and sell prices, profit and ROI badges, client sheet and gating chips, using sample products" width="1440" height="900" loading="lazy">
-                </div>
-              </figure>
-              <figure class="slide" data-caption="Leaderboard · brands and stores ranked by how many good finds they give (sample data)">
-                <div class="browser">
-                  <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">OA Ledger · Leaderboard</span></div>
-                  <img src="images/projects/oaledger-leaderboard.webp" alt="OA Winners Ledger leaderboard ranking sample brands and stores by good products, average ROI, average profit and gating rate" width="1440" height="900" loading="lazy">
-                </div>
-              </figure>
-              <figure class="slide" data-caption="Recheck queue · products that missed the bar come back after 14 days (sample data)">
-                <div class="browser">
-                  <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">OA Ledger · Recheck queue</span></div>
-                  <img src="images/projects/oaledger-recheck.webp" alt="OA Winners Ledger recheck queue listing sample products below the profit or ROI bar, with ROI trend and days since last check" width="1440" height="900" loading="lazy">
-                </div>
-              </figure>
-            </div>
-          </div>
-          <div class="project-info">
-            <div class="p-head"><span class="p-num" aria-hidden="true">02</span><p class="kicker">Full-stack web app · Private tool</p></div>
-            <h3>OA Ledger</h3>
-            <p class="muted">My sourcing job used to mean a separate spreadsheet for every client. I built one shared ledger instead. My teammate and I edit it live, old finds come back for a recheck, and a leaderboard shows which brands are worth our time.</p>
-            <dl class="p-facts"><div><dt>people editing live</dt><dd>2</dd></div><div><dt>between rechecks</dt><dd>14 days</dd></div><div><dt>edits still save</dt><dd>Offline</dd></div></dl>
-            <ul class="tags"><li>JavaScript</li><li>Firebase</li><li>Netlify</li><li>REST API</li></ul>
-            <div class="project-actions">
-              <button class="btn btn-small toggle-case" aria-expanded="false">Read case study</button>
-            </div>
-            <p class="project-note">Only the sourcing team can sign in, so there's no public link. The screenshots show the real app with made-up sample data.</p>
-          </div>
-        </div>
-        <div class="case-study" hidden>
-          <div class="case-card"><p class="label">Problem</p><p>Every client had their own spreadsheet. Rechecking old finds meant digging through all of them, and there was no easy way to see which brands kept paying off.</p></div>
-          <div class="case-card"><p class="label">What I built</p><p>A shared Firebase app we both edit live, with a leaderboard of brands and stores (finds, average ROI, gating rate), price history on every recheck, and product photos. It's hosted free on Netlify.</p></div>
-          <div class="case-card"><p class="label accent">Outcome</p><p>One live ledger replaced the per-client spreadsheets. Both teammates edit it at the same time (even offline), past finds come back for a recheck every 14 days, and the leaderboard shows which brands and stores are worth digging into next.</p></div>
-        </div>
-      </article>
-
-      <!-- Project 3: CompAcc POS -->
-      <article class="project reveal" data-tags="web database team" style="--pt: #D9B77E" id="compacc">
-        <div class="project-row">
-          <div class="gallery" data-gallery style="--tint: #C8A46A" aria-label="CompAcc POS screenshots">
-            <div class="stage">
-              <figure class="slide is-active" data-caption="Checkout · color and size variants, VAT and split payments">
-                <div class="browser">
-                  <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">localhost:8000/pos/</span></div>
-                  <img src="images/projects/compacc-pos.webp" alt="CompAcc point-of-sale screen with product cards, color and size pickers, and a cart totaling 3,388 pesos with VAT" width="1440" height="900" loading="lazy">
-                </div>
-              </figure>
-              <figure class="slide" data-caption="Dashboard · today's sales, restock alerts and recent transactions">
-                <div class="browser">
-                  <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">localhost:8000/dashboard/</span></div>
-                  <img src="images/projects/compacc-dashboard.webp" alt="CompAcc dashboard with sales, transactions, restock and out-of-stock counters" width="1440" height="900" loading="lazy">
-                </div>
-              </figure>
-              <figure class="slide" data-caption="Inventory · stock tracked per color and size">
-                <div class="browser">
-                  <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">localhost:8000/inventory/</span></div>
-                  <img src="images/projects/compacc-inventory.webp" alt="CompAcc inventory table listing products with variant stock, category, price and status" width="1440" height="900" loading="lazy">
-                </div>
-              </figure>
-              <figure class="slide" data-caption="Reports · sales, VAT, discounts and payment methods">
-                <div class="browser">
-                  <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">localhost:8000/reports/</span></div>
-                  <img src="images/projects/compacc-reports.webp" alt="CompAcc reports page showing transactions, items sold, total sales and payment methods" width="1440" height="900" loading="lazy">
-                </div>
-              </figure>
-            </div>
-          </div>
-          <div class="project-info">
-            <div class="p-head"><span class="p-num" aria-hidden="true">03</span><p class="kicker">School project · Team of 2</p></div>
-            <h3>CompAcc POS</h3>
-            <p class="muted">The cash register, stock room and payroll of a small clothing shop, in one app. It tracks every size and color, adds VAT, applies senior and PWD discounts, and takes cash and GCash in the same sale.</p>
-            <dl class="p-facts"><div><dt>commits are mine</dt><dd>37 / 49</dd></div><div><dt>user roles</dt><dd>3</dd></div><div><dt>runs offline</dt><dd>1 PC</dd></div></dl>
-            <ul class="tags"><li>PHP</li><li>SQLite</li><li>JavaScript</li><li>CSS</li><li>Git</li></ul>
-            <div class="project-actions">
-              <button class="btn btn-small toggle-case" aria-expanded="false">Read case study</button>
-              <a href="https://github.com/kishakylepc-ui/CompAcc_POS" target="_blank" rel="noopener" class="link">View on GitHub →</a>
-            </div>
-            <p class="disclaimer">
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
-              <span><b>Disclaimer:</b> CompAcc POS is a school project. The store name and logo in the screenshots are used only as a sample business. It isn't affiliated with, endorsed by or used by Underground Apparel.</span>
-            </p>
-          </div>
-        </div>
-        <div class="case-study" hidden>
-          <div class="case-card"><p class="label">The brief</p><p>Build one system a small clothing store could use for selling, tracking stock by size and color, paying staff and seeing whether the business is actually profitable.</p></div>
-          <div class="case-card"><p class="label">What I built</p><p>Checkout with variants, barcodes, VAT and PWD/Senior discounts, and split payments (cash + GCash, Maya or MariBank); inventory kept in sync by database triggers; supplier restocking; payroll with validation rules; Admin/Manager/Cashier roles with login lockout; activity logs; light and dark mode.</p></div>
-          <div class="case-card"><p class="label accent">Outcome</p><p>49 commits on GitHub — 37 of them mine — built with feature branches. Runs offline on a single Windows PC with PHP's built-in server and SQLite, no XAMPP needed.</p></div>
-        </div>
-      </article>
-
-      <!-- Project 4: Personal Planner (Ledger//Life) -->
-      <article class="project reveal" data-tags="web mobile" style="--pt: #F2DF3A" id="planner">
-        <div class="project-row">
-          <div class="gallery" data-gallery style="--tint: #FCEE0A" aria-label="Ledger//Life screenshots">
-            <div class="stage">
-              <figure class="slide is-active" data-caption="Desktop · safe-to-spend, budgets and goals at a glance (sample data)">
-                <div class="browser">
-                  <div class="window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">Ledger//Life · Home</span></div>
-                  <img src="images/projects/planner-desktop.webp" alt="Ledger//Life desktop home with a neon safe-to-spend total, a 7-day timeline, budget bars and a savings goal ring" width="1440" height="900" loading="lazy">
-                </div>
-              </figure>
-              <figure class="slide" data-caption="Phone · home, bills and savings goals (sample data)">
-                <div class="phones">
-                  <img class="phone" src="images/projects/planner-home.webp" alt="Ledger//Life phone home screen showing safe to spend and the next 7 days" width="780" height="1688" loading="lazy">
-                  <img class="phone" src="images/projects/planner-dues.webp" alt="Ledger//Life dues screen listing overdue and upcoming bills with Pay buttons" width="780" height="1688" loading="lazy">
-                  <img class="phone" src="images/projects/planner-goals.webp" alt="Ledger//Life goals screen with progress rings for an emergency fund, a laptop and a Christmas fund" width="780" height="1688" loading="lazy">
-                </div>
-              </figure>
-              <figure class="slide" data-caption="Phone · wallet and spending stats (sample data)">
-                <div class="phones">
-                  <img class="phone" src="images/projects/planner-wallet.webp" alt="Ledger//Life wallet screen with monthly category budgets" width="780" height="1688" loading="lazy">
-                  <img class="phone" src="images/projects/planner-stats.webp" alt="Ledger//Life stats screen with a spending donut and a 6-month income versus spending chart" width="780" height="1688" loading="lazy">
-                </div>
-              </figure>
-            </div>
-          </div>
-          <div class="project-info">
-            <div class="p-head"><span class="p-num" aria-hidden="true">04</span><p class="kicker">Mobile-first web app</p></div>
-            <h3>Personal Planner <span class="muted-title">Ledger//Life</span></h3>
-            <p class="muted">I had my budget in one app, bills in another and reminders in my head. Ledger//Life puts them all in one place and tells me how much I can safely spend today. I use it every day on my iPhone and laptop.</p>
-            <dl class="p-facts"><div><dt>on my iPhone</dt><dd>Daily</dd></div><div><dt>works without signal</dt><dd>Offline</dd></div><div><dt>installs like an app</dt><dd>PWA</dd></div></dl>
-            <ul class="tags"><li>JavaScript</li><li>Netlify</li><li>PWA</li><li>Supabase</li></ul>
-            <div class="project-actions">
-              <button class="btn btn-small toggle-case" aria-expanded="false">Read case study</button>
-              <a href="https://choom.netlify.app" target="_blank" rel="noopener" class="link">Live demo ↗</a>
-            </div>
-            <p class="project-note">Tip: in the live demo, tap ⚙ → <b>Load sample data</b> to see it filled in. Anything you add stays on your own device.</p>
-          </div>
-        </div>
-        <div class="case-study" hidden>
-          <div class="case-card"><p class="label">Problem</p><p>My budget, bills, tasks and reminders lived in different apps that didn't talk to each other.</p></div>
-          <div class="case-card"><p class="label">What I built</p><p>One mobile-first web app with a safe-to-spend number for the day, spending charts, savings goals and account cards I can customize.</p></div>
-          <div class="case-card"><p class="label accent">Outcome</p><p>Live at choom.netlify.app and installed on my iPhone's home screen. It works offline, and an optional sign-in syncs it between my phone and laptop.</p></div>
-        </div>
-      </article>
-
-      <p class="empty-state" id="emptyState" hidden>No projects in this category yet.</p>
     </section>
 
     <!-- ========== SKILLS ========== -->
-    <section class="band" id="skills">
+    <section class="band skills" id="skills">
       <div class="container section">
-        <div class="section-head">
+        <div class="section-head reveal">
           <div>
-            <h2>Skills</h2>
+            <p class="eyebrow"><span>02</span>Toolkit</p>
+            <h2 class="display display--skills" data-split>Skills</h2>
             <p class="muted">What I've used in real projects, and what I'm still learning.</p>
           </div>
           <div class="chip-group" role="group" aria-label="Filter skills" id="skillFilters">
@@ -353,7 +382,7 @@
           </div>
         </div>
 
-        <!-- data-level="used" = solid dot, data-level="exploring" = hollow dot -->
+        <!-- data-level="used" = solid dot, data-level="exploring" = hollow dot (and set in italics) -->
         <ul class="skill-grid" id="skillGrid">
           <li class="skill" data-cat="languages" data-level="used">Java</li>
           <li class="skill" data-cat="languages" data-level="used">JavaScript</li>
@@ -393,104 +422,170 @@
     </section>
 
     <!-- ========== EXPERIENCE ========== -->
-    <section class="container section" id="experience">
-      <h2>Experience</h2>
-      <ol class="timeline">
-        <li class="reveal">
-          <div class="when">Jul 2024 — Present<br>Remote</div>
-          <div class="what">
-            <h3>Amazon Product Researcher &amp; Admin</h3>
-            <p class="role">Online arbitrage · Remote team</p>
-            <ul>
-              <li>Source products for Amazon sellers using Keepa and SellerAmp, against a $3 profit / 30% ROI standard</li>
-              <li>Manage per-client sourcing sheets and admin tasks</li>
-              <li>Built OA Ledger to replace scattered spreadsheets with a shared live tracker</li>
-            </ul>
-          </div>
-        </li>
-        <li class="reveal">
-          <div class="when">May 2024 — Aug 2024<br>Remote</div>
-          <div class="what">
-            <h3>Game Tester</h3>
-            <p class="role">QA · Client project</p>
-            <ul>
-              <li>Refined gameplay features with developers, improving user experience by 15%</li>
-              <li>Ran regression testing across platforms for consistent performance</li>
-              <li>Prioritized testing from user feedback, raising player satisfaction by 30%</li>
-            </ul>
-          </div>
-        </li>
-        <li class="reveal">
-          <div class="when">Education</div>
-          <div class="what">
-            <h3>BS Information Technology — 3rd year</h3>
-            <p class="role">Western Leyte College, Ormoc City</p>
-            <p class="muted">Senior high at STI Ormoc — graduated With Honors (GWA 93), 2020.</p>
-          </div>
-        </li>
-      </ol>
-
-      <!-- Add the school and year to each card's last line when you have them -->
-      <h3 class="awards-title">Awards &amp; certifications</h3>
-      <ul class="awards">
-        <li class="award reveal">
-          <span class="award-icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="6"/><path d="M8.5 9.2 6 2h4l2 4 2-4h4l-2.5 7.2"/><path d="m12 11.5.9 1.8 2 .3-1.45 1.4.35 2-1.8-.95-1.8.95.35-2-1.45-1.4 2-.3z"/></svg>
-          </span>
+    <section class="experience" id="experience">
+      <div class="container section">
+        <div class="section-head reveal">
           <div>
-            <p class="award-kind">Award</p>
-            <h4>Best in Computer Networking</h4>
+            <p class="eyebrow"><span>03</span>Career</p>
+            <h2 class="display display--exp" data-split>Experience</h2>
           </div>
-        </li>
-        <li class="award reveal">
-          <span class="award-icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M7 9h10M7 12.5h6"/><circle cx="17" cy="17" r="2.5"/><path d="m15.8 19.2-.8 2.8 2-1 2 1-.8-2.8"/></svg>
-          </span>
-          <div>
-            <p class="award-kind">TESDA National Certificate</p>
-            <h4>Computer Systems Servicing NC II</h4>
-            <p class="muted">Assembling, configuring and troubleshooting computers, and setting up networks.</p>
-          </div>
-        </li>
-      </ul>
+        </div>
+        <ol class="timeline">
+          <li class="reveal">
+            <div class="when">Jul 2024 — Present<br>Remote</div>
+            <div class="what">
+              <h3>Amazon Product Researcher &amp; Admin</h3>
+              <p class="role">Online arbitrage · Remote team</p>
+              <ul>
+                <li>Source products for Amazon sellers using Keepa and SellerAmp, against a $3 profit / 30% ROI standard</li>
+                <li>Manage per-client sourcing sheets and admin tasks</li>
+                <li>Built OA Ledger to replace scattered spreadsheets with a shared live tracker</li>
+              </ul>
+            </div>
+          </li>
+          <li class="reveal">
+            <div class="when">May 2024 — Aug 2024<br>Remote</div>
+            <div class="what">
+              <h3>Game Tester</h3>
+              <p class="role">QA · Client project</p>
+              <ul>
+                <li>Refined gameplay features with developers, improving user experience by 15%</li>
+                <li>Ran regression testing across platforms for consistent performance</li>
+                <li>Prioritized testing from user feedback, raising player satisfaction by 30%</li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+        <p class="exp-note reveal">School, the awards and the certificate are in <a href="#journey">the journey</a> below.</p>
+      </div>
     </section>
 
     <!-- ========== ABOUT ========== -->
-    <section class="container section about" id="about">
-      <div>
-        <h2>About</h2>
-        <p class="small muted">Speaks English, Tagalog and Bisaya</p>
+    <section class="about" id="about">
+      <figure class="about-photo">
+        <picture>
+          <source type="image/webp" srcset="assets/img/portrait/kisha-skyward-800.webp 800w, assets/img/portrait/kisha-skyward-1300.webp 1300w" sizes="(max-width: 900px) 100vw, 48vw">
+          <img src="assets/img/portrait/kisha-skyward-1300.webp" alt="Kisha in a cap and sunglasses, looking up at the sky, with grey sea and fog behind" width="1300" height="1790" loading="lazy">
+        </picture>
+      </figure>
+      <div class="container section about-inner">
+        <div class="about-head reveal">
+          <p class="eyebrow"><span>04</span>About me</p>
+          <h2 class="display display--about" data-split>About</h2>
+          <p class="small muted lang-note">Speaks English, Tagalog and Bisaya</p>
+        </div>
+        <div class="about-text reveal">
+          <p>I'm in my 3rd year of BS Information Technology at Western Leyte College. Since 2024 I've also worked remotely as an Amazon product researcher, which mostly means checking the same numbers (buy price, sell price, fees, ROI) over and over. That's how I got into building tools: if I'm doing something by hand every day, <mark>I'd rather write the code once.</mark></p>
+          <p>I like building for <mark>people I can actually talk to</mark>, like my sourcing teammate or someone nearby who needs a blood donor. I'm handy with hardware too (I hold an NC II in Computer Systems Servicing), and lately I've been learning game development and AI.</p>
+        </div>
       </div>
-      <div class="about-text">
-        <p>I'm in my 3rd year of BS Information Technology at Western Leyte College. Since 2024 I've also worked remotely as an Amazon product researcher, which mostly means checking the same numbers (buy price, sell price, fees, ROI) over and over. That's how I got into building tools: if I'm doing something by hand every day, I'd rather write the code once.</p>
-        <p>I like building for people I can actually talk to, like my sourcing teammate or someone nearby who needs a blood donor. I'm handy with hardware too (I hold an NC II in Computer Systems Servicing), and lately I've been learning game development and AI.</p>
+    </section>
+
+    <!-- ========== JOURNEY (education, told as a route) ==========
+         Each <li class="stop"> is one stop; script.js (setupRoute) draws a winding line through the
+         .stop-dot of every stop and on into the statement, as you scroll. Only facts you've given are used:
+         add dates or details to a stop's paragraph when you want them shown. -->
+    <section class="journey" id="journey">
+      <div class="container section">
+        <div class="section-head reveal">
+          <div>
+            <p class="eyebrow"><span>05</span>Education</p>
+            <h2 class="display display--journey" data-split><span class="d-line">The route,</span> <span class="d-line d-indent"><em class="it">so far</em></span></h2>
+          </div>
+        </div>
+
+        <div class="journey-body" id="journeyBody">
+          <svg class="route-line" aria-hidden="true"></svg>
+
+          <ol class="route">
+            <li class="stop reveal">
+              <span class="stop-dot" aria-hidden="true"></span>
+              <p class="label">Senior high</p>
+              <h3>STI Ormoc</h3>
+              <p class="stop-text">Graduated With Honors (GWA 93), 2020.</p>
+            </li>
+            <li class="stop reveal">
+              <span class="stop-dot" aria-hidden="true"></span>
+              <p class="label">Where college began</p>
+              <h3>Visayas State University</h3>
+              <p class="stop-text">I studied at VSU for a while, until my route turned back toward Ormoc.</p>
+            </li>
+            <li class="stop reveal">
+              <span class="stop-dot" aria-hidden="true"></span>
+              <p class="label">Now</p>
+              <h3>Western Leyte College</h3>
+              <p class="stop-text">BS Information Technology, 3rd year, in Ormoc City.</p>
+            </li>
+            <li class="stop stop--along reveal">
+              <span class="stop-dot" aria-hidden="true"></span>
+              <!-- Add the school and year to each award when you have them -->
+              <h3 class="label awards-title">Awards &amp; certifications <span>· picked up along the way</span></h3>
+              <ul class="awards">
+                <li class="award">
+                  <div>
+                    <p class="award-kind">Award</p>
+                    <h4>Best in Computer Networking</h4>
+                  </div>
+                </li>
+                <li class="award">
+                  <div>
+                    <p class="award-kind">TESDA National Certificate</p>
+                    <h4>Computer Systems Servicing NC II</h4>
+                    <p class="muted">Assembling, configuring and troubleshooting computers, and setting up networks.</p>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ol>
+
+          <!-- The statement: the route line ends at the full stop after "destination" -->
+          <div class="statement reveal">
+            <p class="label statement-label">A note on pace</p>
+            <p class="statement-text" data-split>
+              <span class="st st-1">Different</span>
+              <span class="st st-2"><em class="it">route.</em></span>
+              <span class="st st-3">Same</span>
+              <span class="st st-4"><em class="it">destination<span class="route-end">.</span></em></span>
+            </p>
+            <p class="statement-note">My route had a turn in it. It still leads where I'm going.</p>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- ========== CONTACT ========== -->
     <section class="contact" id="contact">
+      <figure class="contact-photo">
+        <picture>
+          <source type="image/webp" srcset="assets/img/portrait/kisha-horizon-900.webp 900w, assets/img/portrait/kisha-horizon-1600.webp 1600w" sizes="(max-width: 900px) 100vw, 60vw">
+          <img src="assets/img/portrait/kisha-horizon-1600.webp" alt="Kisha standing on a rock at the edge of the sea, pulling up a hood, surrounded by thick fog" width="1600" height="1498" loading="lazy">
+        </picture>
+      </figure>
       <div class="container section">
-        <p class="kicker mono">$ contact --open-to "internship, junior dev, web/mobile dev"</p>
-        <h2 class="big">Got a problem that should be an app? Tell me about it.</h2>
-        <p class="contact-sub">I'm looking for an internship or a junior web or mobile role. Email is the quickest way to reach me.</p>
-        <div class="btn-row">
-          <button class="btn btn-primary" id="copyEmail" data-email="kishakylepc@gmail.com">
-            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
-            <span>Copy email</span>
-          </button>
-          <a href="mailto:kishakylepc@gmail.com" class="btn btn-outline">kishakylepc@gmail.com</a>
-          <a href="https://github.com/kishakylepc-ui" class="btn btn-outline" target="_blank" rel="noopener">GitHub</a>
-          <!-- resume.pdf is made from resume.html (see README) -->
-          <a href="resume.pdf" class="btn btn-outline" target="_blank" rel="noopener">Résumé (PDF)</a>
+        <div class="contact-card reveal">
+          <p class="kicker">$ contact --open-to "internship, junior dev, web/mobile dev"</p>
+          <h2 class="big" data-split><span class="big-1">Got a problem that should be an app?</span> <em class="it big-2">Tell me about it.</em></h2>
+          <p class="contact-sub">I'm looking for an internship or a junior web or mobile role. Email is the quickest way to reach me.</p>
+          <div class="btn-row">
+            <button class="btn btn-primary" id="copyEmail" data-email="kishakylepc@gmail.com">
+              <span>Copy email</span>
+            </button>
+            <a href="mailto:kishakylepc@gmail.com" class="btn btn-outline">kishakylepc@gmail.com</a>
+            <a href="https://github.com/kishakylepc-ui" class="btn btn-outline" target="_blank" rel="noopener">GitHub</a>
+            <!-- The PDF is made from resume/resume.html (see README) -->
+            <a href="resume/Kisha-Kyle-Samson-Resume.pdf" class="btn btn-outline" target="_blank" rel="noopener">Résumé (PDF)</a>
+          </div>
         </div>
       </div>
     </section>
 
   </main>
 
-  <footer class="container footer">
-    <p>© <span id="year">2026</span> Kisha Kyle Samson · Hand-coded in HTML, CSS &amp; JavaScript, no templates</p>
-    <a href="#top" class="link">Back to top ↑</a>
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> Kisha Kyle Samson · Hand-coded in HTML, CSS &amp; JavaScript, no templates</p>
+      <a href="#top" class="link">Back to top ↑</a>
+    </div>
   </footer>
 
   <!-- Full-screen screenshot viewer (filled in by script.js) -->
@@ -499,21 +594,21 @@
       <p class="lb-caption" id="lbCaption"></p>
       <span class="lb-count" id="lbCount"></span>
       <button class="lb-btn lb-close" id="lbClose" type="button" aria-label="Close viewer">
-        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </div>
     <div class="lb-frame" id="lbFrame"><img id="lbImg" alt="" draggable="false"></div>
     <button class="lb-btn lb-nav lb-prev" id="lbPrev" type="button" aria-label="Previous screenshot">
-      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
     </button>
     <button class="lb-btn lb-nav lb-next" id="lbNext" type="button" aria-label="Next screenshot">
-      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
     </button>
     <p class="lb-hint">Click the image to zoom · ← → to browse · Esc to close</p>
   </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="script.js"></script>
+  <script src="assets/js/script.js"></script>
 </body>
 </html>

@@ -13,11 +13,17 @@ document.addEventListener("DOMContentLoaded", () => {
   setupCopyEmail();
   setupScrollReveal();
   setupGalleries();
-  setupPortraitTilt();
   setupWorkFlow();
   setupScrollCue();
+  setupSplitHeadings();
+  setupRoute();
+  setupHeroDepth();
+  setupNameLetters();
 
-  document.getElementById("year").textContent = new Date().getFullYear();
+  const year = new Date().getFullYear();
+  document.getElementById("year").textContent = year;
+  const heroYear = document.getElementById("heroYear");
+  if (heroYear) heroYear.textContent = year;
 });
 
 const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -44,11 +50,22 @@ function setupMobileMenu() {
   });
 }
 
-/* ---------- Header border when scrolled ---------- */
+/* ---------- Header: plain at the top, then a floating glass bar once you scroll past the hero ---------- */
 function setupHeaderShadow() {
   const header = document.getElementById("siteHeader");
-  const update = () => header.classList.toggle("scrolled", window.scrollY > 10);
+  const hero = document.getElementById("top");
+  const links = document.getElementById("navLinks");
+  const update = () => {
+    const y = window.scrollY;
+    const heroEnd = hero ? hero.offsetHeight - 96 : 400;
+    const floating = y > heroEnd;
+    header.classList.toggle("scrolled", y > 10);
+    header.classList.toggle("is-floating", floating);
+    // While you're reading the hero, the bar steps out of the way (unless the menu is open)
+    header.classList.toggle("is-hidden", !floating && y > 80 && !links.classList.contains("open"));
+  };
   window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
   update();
 }
 
@@ -160,7 +177,11 @@ function setupCopyEmail() {
       return;
     }
     label.textContent = "Copied!";
-    setTimeout(() => (label.textContent = "Copy email"), 1800);
+    button.classList.add("is-copied");
+    setTimeout(() => {
+      label.textContent = "Copy email";
+      button.classList.remove("is-copied");
+    }, 1800);
   });
 }
 
@@ -511,32 +532,8 @@ function createLightbox() {
   };
 }
 
-/* ---------- Portrait tilts toward the pointer ---------- */
-function setupPortraitTilt() {
-  const card = document.getElementById("portraitCard");
-  if (!card || !canHover() || prefersReducedMotion()) return;
 
-  const MAX_TILT = 8; // degrees
-
-  card.addEventListener("pointermove", (e) => {
-    const box = card.getBoundingClientRect();
-    const x = (e.clientX - box.left) / box.width;
-    const y = (e.clientY - box.top) / box.height;
-    card.style.setProperty("--ry", ((x - 0.5) * MAX_TILT * 2).toFixed(2) + "deg");
-    card.style.setProperty("--rx", ((0.5 - y) * MAX_TILT * 2).toFixed(2) + "deg");
-    card.style.setProperty("--gx", (x * 100).toFixed(1) + "%");
-    card.style.setProperty("--gy", (y * 100).toFixed(1) + "%");
-    card.classList.add("is-tilting");
-  });
-
-  card.addEventListener("pointerleave", () => {
-    card.classList.remove("is-tilting");
-    card.style.setProperty("--rx", "0deg");
-    card.style.setProperty("--ry", "0deg");
-  });
-}
-
-/* ---------- Selected work: zig-zag layout, pinned project index, and curves between projects ---------- */
+/* ---------- Selected work: zig-zag layout and the pinned project index ---------- */
 function setupWorkFlow() {
   const section = document.getElementById("work");
   if (!section) return;
@@ -544,107 +541,24 @@ function setupWorkFlow() {
   const projects = [...section.querySelectorAll(".project")];
   const links = [...document.querySelectorAll("#workIndex a")];
   const linkFor = (p) => links.find((a) => a.getAttribute("href") === `#${p.id}`);
-  const stacked = window.matchMedia("(max-width: 900px)");
   const clamp = (v) => Math.min(1, Math.max(0, v));
-  const tintOf = (p) => getComputedStyle(p).getPropertyValue("--pt").trim() || "#FB923C";
   let shown = [];
-  let curves = [];
-  let uid = 0;
 
-  // Let the text lines enter one after another
-  projects.forEach((p) => {
-    [...p.querySelector(".project-info").children].forEach((el, i) => el.style.setProperty("--i", i));
-  });
-
-  // Rebuild after filtering: flip every other project and put a curve between neighbours
+  // After filtering: hide the index links of hidden projects and flip every other visible project
   function build() {
-    curves.forEach((c) => c.el.remove());
     shown = projects.filter((p) => !p.hidden);
     projects.forEach((p) => {
       const a = linkFor(p);
       if (a) a.hidden = p.hidden;
-    });
-    projects.forEach((p) => p.classList.toggle("is-flip", !p.hidden && shown.indexOf(p) % 2 === 1));
-    curves = shown.slice(0, -1).map((from, i) => {
-      const el = document.createElement("div");
-      el.className = "flow-link";
-      el.setAttribute("aria-hidden", "true");
-      from.after(el);
-      return { el, from, to: shown[i + 1] };
-    });
-    measure();
-  }
-
-  // Draw each curve from the bottom of one project's screenshots to the top of the next one's
-  function measure() {
-    curves.forEach((c) => {
-      const box = c.el.getBoundingClientRect();
-      const w = box.width;
-      const h = box.height;
-      const g1 = c.from.querySelector(".gallery").getBoundingClientRect();
-      const g2 = c.to.querySelector(".gallery").getBoundingClientRect();
-      const study = c.from.querySelector(".case-study");
-      const above = study && !study.hidden ? study.getBoundingClientRect().bottom : stacked.matches ? box.top : g1.bottom;
-      const y1 = Math.min(0, above - box.top + 14);
-      const y2 = stacked.matches ? h : Math.max(h, g2.top - box.top - 14);
-      let d;
-      let x1;
-      let x2;
-      if (stacked.matches) {
-        // Down the left edge, into the next project's number
-        const n = c.to.querySelector(".p-num").getBoundingClientRect();
-        x1 = x2 = n.left + n.width / 2 - box.left;
-        d = `M${x1} ${y1} C${x1 + 24} ${y1 + (y2 - y1) * 0.35}, ${x2 - 24} ${y1 + (y2 - y1) * 0.65}, ${x2} ${y2}`;
-      } else {
-        x1 = g1.left + g1.width / 2 - box.left;
-        x2 = g2.left + g2.width / 2 - box.left;
-        const mid = y1 + (y2 - y1) / 2;
-        d = `M${x1} ${y1} C${x1} ${mid}, ${x2} ${mid}, ${x2} ${y2}`;
-      }
-      const c1 = tintOf(c.from);
-      const c2 = tintOf(c.to);
-      const id = `flg${++uid}`;
-      c.el.innerHTML = `
-        <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
-          <defs><linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="${y1}" x2="0" y2="${y2}">
-            <stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/>
-          </linearGradient></defs>
-          <path class="fl-track" d="${d}"/>
-          <path class="fl-draw" d="${d}" pathLength="1" stroke="url(#${id})"/>
-          <circle class="fl-end" cx="${x1}" cy="${y1}" r="4.5" stroke="${c1}"/>
-          <circle class="fl-end fl-end--to" cx="${x2}" cy="${y2}" r="4.5" stroke="${c2}"/>
-          <g class="fl-dot"><circle r="10" fill="${c2}" opacity="0.22"/><circle r="4.5" fill="#fff"/></g>
-        </svg>`;
-      c.draw = c.el.querySelector(".fl-draw");
-      c.dot = c.el.querySelector(".fl-dot");
-      c.endDot = c.el.querySelector(".fl-end--to");
-      c.len = c.draw.getTotalLength();
-      c.y1 = y1;
-      c.y2 = y2;
-      c.c2 = c2;
+      p.classList.toggle("is-flip", !p.hidden && shown.indexOf(p) % 2 === 1);
     });
     onScroll();
   }
 
+  // The project crossing the middle of the screen is "current"; the index shows how far through it you are
   function onScroll() {
-    const vh = window.innerHeight;
-    const still = prefersReducedMotion();
-
-    // Curves fill in as they pass through the middle of the screen
-    curves.forEach((c) => {
-      if (!c.draw) return;
-      const top = c.el.getBoundingClientRect().top + c.y1;
-      const span = c.y2 - c.y1;
-      const p = still ? 1 : clamp((vh * 0.8 - top) / (vh * 0.4 + span));
-      c.draw.style.strokeDashoffset = String(1 - p);
-      const pt = c.draw.getPointAtLength(p * c.len);
-      c.dot.setAttribute("transform", `translate(${pt.x} ${pt.y})`);
-      c.el.classList.toggle("is-moving", p > 0.01 && p < 0.99);
-      c.endDot.style.fill = p >= 0.99 ? c.c2 : "";
-    });
-
-    // The project crossing the middle of the screen is "current"; the index shows how far through it you are
-    const mark = vh * 0.45;
+    frame = 0;
+    const mark = window.innerHeight * 0.45;
     const sec = section.getBoundingClientRect();
     let current = null;
     shown.forEach((p) => {
@@ -657,30 +571,18 @@ function setupWorkFlow() {
       const on = p === current;
       p.classList.toggle("is-current", on);
       const a = linkFor(p);
-      if (a) {
-        a.classList.toggle("is-current", on);
-        if (on) a.setAttribute("aria-current", "true");
-        else a.removeAttribute("aria-current");
-      }
+      if (!a) return;
+      a.classList.toggle("is-current", on);
+      if (on) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
     });
   }
 
   let frame = 0;
-  const schedule = (fn) => {
-    cancelAnimationFrame(frame);
-    frame = requestAnimationFrame(fn);
-  };
-  window.addEventListener("scroll", () => schedule(onScroll), { passive: true });
-  window.addEventListener("resize", () => schedule(measure));
-  window.addEventListener("load", measure);
-  document.fonts?.ready.then(measure);
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(onScroll); };
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
   document.addEventListener("projects:filtered", build);
-  // Opening a case study or loading images changes heights, so re-measure
-  if ("ResizeObserver" in window) {
-    const ro = new ResizeObserver(() => schedule(measure));
-    projects.forEach((p) => ro.observe(p));
-  }
-
   build();
 }
 
@@ -691,4 +593,166 @@ function setupScrollCue() {
   const update = () => cue.classList.toggle("is-hidden", window.scrollY > 60);
   window.addEventListener("scroll", update, { passive: true });
   update();
+}
+
+/* ---------- Text reveal: words in [data-split] headings rise into place when the heading scrolls in ----------
+   Each word becomes <span class="sw"><span class="sw-i">word</span></span>; the CSS slides .sw-i up once an
+   ancestor gets the "visible" class from setupScrollReveal. Text nodes only, so <em> and spans stay intact. */
+function setupSplitHeadings() {
+  if (prefersReducedMotion()) return;
+  document.querySelectorAll("[data-split]").forEach((heading) => {
+    const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+    const textNodes = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
+    let index = 0;
+    textNodes.forEach((node) => {
+      const frag = document.createDocumentFragment();
+      node.textContent.split(/(\s+)/).forEach((part) => {
+        if (!part) return;
+        if (/^\s+$/.test(part)) { frag.append(" "); return; }
+        const outer = document.createElement("span");
+        outer.className = "sw";
+        const inner = document.createElement("span");
+        inner.className = "sw-i";
+        inner.style.setProperty("--wi", index++);
+        inner.textContent = part;
+        outer.append(inner);
+        frag.append(outer);
+      });
+      node.replaceWith(frag);
+    });
+    heading.classList.add("sw-host");
+  });
+}
+
+/* ---------- The route: a winding line through the education stops, ending at "destination." ----------
+   Drawn through the .stop-dot of every stop in #journeyBody and on to .route-end. The solid line follows
+   your scroll (its tip stays near the middle of the screen), and each stop lights up once it's passed. */
+function setupRoute() {
+  const body = document.getElementById("journeyBody");
+  if (!body) return;
+  const svg = body.querySelector(".route-line");
+  const stops = [...body.querySelectorAll(".stop")];
+  const end = body.querySelector(".route-end");
+  if (!svg || stops.length < 2) return;
+
+  const still = prefersReducedMotion();
+  let track, draw, len = 0, points = [];
+
+  // Position inside the journey body, ignoring transforms (the reveal animations move things).
+  // fy = how far down the element the point sits (0.5 = its centre).
+  const pointIn = (el, fy = 0.5) => {
+    let x = el.offsetWidth / 2, y = el.offsetHeight * fy;
+    for (let n = el; n && n !== body; n = n.offsetParent) { x += n.offsetLeft; y += n.offsetTop; }
+    return { x, y };
+  };
+  const f = (n) => n.toFixed(1);
+
+  function measure() {
+    // Each stop: its dot, then straight down its left edge to just below its text, so the line never crosses words
+    points = stops.map((s) => {
+      const dot = pointIn(s.querySelector(".stop-dot"));
+      const bottom = pointIn(s, 1).y + 18;
+      return { x: dot.x, y: dot.y, down: bottom };
+    });
+    // The finish: curve over to a point just above the statement, straight over the full stop after "destination",
+    // then drop down into it. That line is right-aligned, so the drop passes beside the shorter lines, not through them.
+    if (end) {
+      const stop = pointIn(end, 0.74);                     // the full stop's dot sits low in its line box
+      const top = pointIn(end.closest(".statement"), 0).y - 12;
+      points.push({ x: stop.x, y: top, down: stop.y });
+    }
+    let d = `M${f(points[0].x)} ${f(points[0].y)}`;
+    points.forEach((a, i) => {
+      d += ` L${f(a.x)} ${f(a.down)}`;                     // straight down (the left edge of a stop, or into the full stop)
+      const b = points[i + 1];
+      if (!b) return;
+      const dy = b.y - a.down;                             // then curve across the gap to the next point
+      d += ` C${f(a.x)} ${f(a.down + dy * 0.6)}, ${f(b.x)} ${f(b.y - dy * 0.6)}, ${f(b.x)} ${f(b.y)}`;
+    });
+    svg.setAttribute("viewBox", `0 0 ${body.offsetWidth} ${body.offsetHeight}`);
+    svg.innerHTML = `<path class="rl-track" d="${d}"/><path class="rl-draw" d="${d}" pathLength="1"/>`;
+    track = svg.querySelector(".rl-track");
+    draw = svg.querySelector(".rl-draw");
+    len = track.getTotalLength();
+    update();
+  }
+
+  // The path only ever runs downward, so the length at a given height can be found by halving
+  function lengthAtY(y) {
+    if (y <= points[0].y) return 0;
+    if (y >= points[points.length - 1].down) return len;
+    let lo = 0, hi = len;
+    for (let i = 0; i < 22; i++) {
+      const mid = (lo + hi) / 2;
+      if (track.getPointAtLength(mid).y < y) lo = mid; else hi = mid;
+    }
+    return lo;
+  }
+
+  function update() {
+    pending = 0;
+    if (!track) return;
+    const reach = still ? Infinity : window.innerHeight * 0.62 - body.getBoundingClientRect().top;
+    const at = still ? len : lengthAtY(reach);
+    draw.style.strokeDashoffset = String(1 - at / len);
+    stops.forEach((s, i) => s.classList.toggle("is-passed", reach >= points[i].y - 4));
+    end?.classList.toggle("is-reached", at >= len - 1);
+  }
+
+  let pending = 0;
+  const schedule = () => { if (!pending) pending = requestAnimationFrame(update); };
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", () => requestAnimationFrame(measure));
+  window.addEventListener("load", measure);
+  document.fonts?.ready.then(measure);
+  if ("ResizeObserver" in window) new ResizeObserver(() => requestAnimationFrame(measure)).observe(body);
+  measure();
+}
+
+
+/* ---------- Hero depth ----------
+   As you scroll past the hero, each [data-depth] layer (the light, the mist, the portrait) lags behind a little,
+   farther layers more; on wide screens the text fades out. Layers move through the CSS "translate" property,
+   so their own "transform" can position them. */
+function setupHeroDepth() {
+  const hero = document.getElementById("top");
+  if (!hero || prefersReducedMotion()) return;
+
+  const layers = [...hero.querySelectorAll("[data-depth]")].map((el) => ({ el, lag: Math.max(0.05, 0.3 - (parseFloat(el.dataset.depth) || 0) * 0.55) }));
+  const copy = hero.querySelector(".hero-copy");
+  const title = hero.querySelector(".hero-title");
+  const wide = window.matchMedia("(min-width: 901px)");
+  let frame = 0;
+
+  function update() {
+    frame = 0;
+    const scrolled = Math.min(Math.max(window.scrollY, 0), hero.offsetHeight);
+    layers.forEach(({ el, lag }) => { el.style.translate = `0 ${(scrolled * lag).toFixed(1)}px`; });
+    if (wide.matches) {
+      copy.style.opacity = Math.max(0, 1 - scrolled / (hero.offsetHeight * 0.75)).toFixed(3);
+      title.style.translate = `0 ${(scrolled * -0.12).toFixed(1)}px`;
+    } else {
+      copy.style.opacity = title.style.translate = "";
+    }
+  }
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
+  update();
+}
+
+/* ---------- Hero name: each letter rises in on load and jumps when you hover it ---------- */
+function setupNameLetters() {
+  let index = 0;
+  document.querySelectorAll(".hero-name .nm").forEach((word) => {
+    const letters = [...word.textContent].map((char) => {
+      const span = document.createElement("span");
+      span.className = "ch";
+      span.textContent = char;
+      span.style.setProperty("--ci", index++);
+      return span;
+    });
+    word.replaceChildren(...letters);
+  });
 }
