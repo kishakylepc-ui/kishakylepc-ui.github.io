@@ -234,6 +234,14 @@ Ruled rows, one per group (Languages, Web development, Mobile development, Data,
 ### The route (signature)
 The Journey's stops alternate left and right; a 1px Muted Blue line is drawn down each stop and across to the next as you scroll, over a dotted Slate track, and ends just below the last stop (awards and certifications).
 
+### Motion
+- **Material:** focus and mist. Things come up out of the fog once, through a blur-to-sharp pull and a rise from behind an edge (a clip), on the exponential ease-out `cubic-bezier(0.16, 1, 0.3, 1)`. No bounce. The only loop is the mist, and it pauses while the hero is off screen.
+- **Focal moment (the hero, on load):** the photo pulls into focus (1.3s), the fog light comes up behind it, the name's letters surface from below each word's edge (28ms apart), then the words around it fade up; settled in about two seconds.
+- **By content, once on scroll:** section titles rise from a mask edge and come into focus; a project's screenshot is uncovered from the top; lists (job bullets, skills, awards) come in 55ms apart; paragraphs fade up.
+- **Continuity:** filtering is a view transition (what stays glides to its new place, what goes fades); slides move the way you pressed; the full-screen viewer grows from the screenshot you clicked; case-study rows follow one another in; on wide screens one underline slides from section to section.
+- **Feedback:** arrows nudge the way they point under a mouse; controls press to 0.97 in 160ms.
+- **Reduced motion:** nothing travels. Every entrance becomes a fade, the mist stops, and every state change still shows.
+
 ## Do's and Don'ts
 
 ### Do:
@@ -243,7 +251,7 @@ The Journey's stops alternate left and right; a 1px Muted Blue line is drawn dow
 - **Do** stage each section title differently and keep Cormorant to one or two warm italic words, never in titles' second words, roles or skills.
 - **Do** use only Kisha's own photographs, dissolved into the page with masks.
 - **Do** keep small text at 4.5:1 or better and touch targets at 44px.
-- **Do** let motion mean noticing: one reveal, the route being drawn, a press that gives.
+- **Do** let motion mean noticing: things come into focus once (a blur-to-sharp pull, a rise from behind an edge), the route is drawn as you read, a press gives.
 
 ### Don't:
 - **Don't** put a label, number or eyebrow above a heading, or number sections for decoration.

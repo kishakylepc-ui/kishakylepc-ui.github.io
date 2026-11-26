@@ -12,10 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
   setupSkillFilters();
   setupCopyEmail();
   setupScrollReveal();
+  setupTitleReveal();
   setupGalleries();
   setupWorkFlow();
   setupRoute();
   setupHeroDepth();
+  setupFogPause();
   setupNameLetters();
 
   document.getElementById("year").textContent = new Date().getFullYear();
@@ -79,13 +81,40 @@ function setupActiveNav() {
     .map((link) => document.querySelector(link.getAttribute("href")))
     .filter(Boolean);
 
+  // On wide screens one underline (.nav-ink) slides from section to section; phones mark the active row instead
+  const nav = document.querySelector('nav[aria-label="Main"]');
+  const ink = document.createElement("span");
+  ink.className = "nav-ink";
+  ink.setAttribute("aria-hidden", "true");
+  nav?.append(ink);
+  let activeLink = null;
+
+  function placeInk() {
+    if (!nav || !activeLink || !activeLink.offsetParent || getComputedStyle(ink).display === "none") {
+      ink.classList.remove("is-on");
+      return;
+    }
+    const n = nav.getBoundingClientRect();
+    const r = activeLink.getBoundingClientRect();
+    const y = r.bottom - n.top - parseFloat(getComputedStyle(activeLink).paddingBottom) + 6;   // just under the word
+    const first = !ink.classList.contains("is-on");
+    ink.classList.toggle("is-placing", first);
+    ink.style.transform = `translate(${(r.left - n.left).toFixed(1)}px, ${y.toFixed(1)}px) scaleX(${(r.width / 100).toFixed(3)})`;
+    ink.classList.add("is-on");
+    if (first) requestAnimationFrame(() => requestAnimationFrame(() => ink.classList.remove("is-placing")));
+  }
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          activeLink = null;
           navLinks.forEach((link) => {
-            link.classList.toggle("active", link.getAttribute("href") === "#" + entry.target.id);
+            const on = link.getAttribute("href") === "#" + entry.target.id;
+            link.classList.toggle("active", on);
+            if (on) activeLink = link;
           });
+          placeInk();
         }
       });
     },
@@ -93,6 +122,33 @@ function setupActiveNav() {
   );
 
   sections.forEach((section) => observer.observe(section));
+  // Above the first section (the hero) nothing is current, so the underline fades out
+  const hero = document.getElementById("top");
+  if (hero) {
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        activeLink = null;
+        navLinks.forEach((link) => link.classList.remove("active"));
+        placeInk();
+      }
+    }, { rootMargin: "-45% 0px -50% 0px" }).observe(hero);
+  }
+  window.addEventListener("resize", () => requestAnimationFrame(placeInk));
+  document.fonts?.ready.then(placeInk);
+}
+
+/* ---------- Filtering runs as a view transition where supported: what stays glides to its new place ----------
+   Each item gets a view-transition-name only for the length of the transition. Without support, or with reduced
+   motion, the change just happens (the items' own CSS fade still plays). */
+function withViewTransition(elements, update) {
+  if (!document.startViewTransition || prefersReducedMotion()) { update(); return; }
+  elements.forEach((el, i) => { el.style.viewTransitionName = `vt-item-${i}`; });
+  document.documentElement.classList.add("vt");
+  const transition = document.startViewTransition(update);
+  transition.finished.finally(() => {
+    elements.forEach((el) => { el.style.viewTransitionName = ""; });
+    document.documentElement.classList.remove("vt");
+  });
 }
 
 /* ---------- Reusable: make a group of chip buttons act like tabs ---------- */
@@ -131,7 +187,7 @@ function setupProjectFilters() {
     return;
   }
 
-  setupChipGroup(document.getElementById("projectFilters"), (filter) => {
+  setupChipGroup(document.getElementById("projectFilters"), (filter) => withViewTransition([...projects], () => {
     let shown = 0;
 
     projects.forEach((project) => {
@@ -147,7 +203,7 @@ function setupProjectFilters() {
     countText.textContent = describe(shown);
     emptyState.hidden = shown !== 0;
     document.dispatchEvent(new CustomEvent("projects:filtered"));
-  });
+  }));
 
   countText.textContent = describe(total);
 }
@@ -176,12 +232,12 @@ function setupCaseStudies() {
 function setupSkillFilters() {
   const groups = document.querySelectorAll(".skill-group");
 
-  setupChipGroup(document.getElementById("skillFilters"), (filter) => {
+  setupChipGroup(document.getElementById("skillFilters"), (filter) => withViewTransition([...groups], () => {
     groups.forEach((group) => {
       group.hidden = !(filter === "all" || group.dataset.cat === filter);
       group.classList.add("visible"); // skip the scroll animation for groups shown by a filter
     });
-  });
+  }));
 }
 
 /* ---------- Copy email to clipboard ---------- */
@@ -231,6 +287,10 @@ function showToast(message) {
 /* ---------- Fade sections in as you scroll ---------- */
 function setupScrollReveal() {
   const items = document.querySelectorAll(".reveal");
+  // Lists come in as lists: number each item so the CSS can delay it a beat after the one before
+  items.forEach((block) => {
+    block.querySelectorAll(".what li, .skill, .award").forEach((item, i) => item.style.setProperty("--i", Math.min(i, 8)));
+  });
 
   const observer = new IntersectionObserver(
     (entries) => {
@@ -245,6 +305,40 @@ function setupScrollReveal() {
   );
 
   items.forEach((item) => observer.observe(item));
+}
+
+/* ---------- Section titles surface line by line, the way the name does ----------
+   Each line is wrapped in .t-mask > .t-in; the CSS lifts .t-in from below the mask's edge and into focus once the
+   title scrolls in. Lines are the title's own .d-line / .big-1 / .big-2 spans, or the whole title. */
+function setupTitleReveal() {
+  const titles = document.querySelectorAll("main h2.display, main h2.big");
+  if (!titles.length) return;
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-in");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+  titles.forEach((title) => {
+    const lines = title.querySelectorAll(":scope > .d-line, :scope > .big-1, :scope > .big-2");
+    (lines.length ? [...lines] : [title]).forEach((line, i) => {
+      const mask = document.createElement("span");
+      mask.className = "t-mask";
+      const inner = document.createElement("span");
+      inner.className = "t-in";
+      inner.style.setProperty("--li", i);
+      inner.append(...line.childNodes);
+      mask.append(inner);
+      line.append(mask);
+    });
+    title.classList.add("t-host");
+    observer.observe(title);
+  });
 }
 
 /* =========================================================
@@ -382,8 +476,8 @@ function initGallery(gallery, viewer) {
     prev = makeButton("g-btn g-prev", "Previous screenshot", ICONS.prev);
     next = makeButton("g-btn g-next", "Next screenshot", ICONS.next);
     stage.append(prev, next);
-    prev.addEventListener("click", () => show(current - 1));
-    next.addEventListener("click", () => show(current + 1));
+    prev.addEventListener("click", () => show(current - 1, -1));
+    next.addEventListener("click", () => show(current + 1, 1));
   }
   zoom.addEventListener("click", () => {
     const video = slides[current].querySelector("video");
@@ -442,8 +536,12 @@ function initGallery(gallery, viewer) {
   }
   gallery.append(foot);
 
-  function show(index) {
-    current = (index + slides.length) % slides.length;
+  // dir: 1 = forward (Next), -1 = back; worked out from the indexes when not given (thumbnails, the viewer)
+  function show(index, dir) {
+    const target = (index + slides.length) % slides.length;
+    if (dir === undefined) dir = target === current ? 0 : target > current ? 1 : -1;
+    if (dir) stage.dataset.dir = dir > 0 ? "next" : "prev";
+    current = target;
     slides.forEach((slide, i) => {
       const active = i === current;
       slide.classList.toggle("is-active", active);
@@ -475,7 +573,7 @@ function initGallery(gallery, viewer) {
   }
 
   // Click a screenshot (or anywhere on the stage) to open it full size
-  const justSwiped = addSwipe(stage, (dir) => show(current + dir), () => many);
+  const justSwiped = addSwipe(stage, (dir) => show(current + dir, dir), () => many);
   stage.addEventListener("click", (e) => {
     if (justSwiped() || e.target.closest(".g-btn") || e.target.closest("video")) return;
     const video = slides[current].querySelector("video");
@@ -487,8 +585,8 @@ function initGallery(gallery, viewer) {
 
   stage.addEventListener("keydown", (e) => {
     if (e.target !== stage) return;
-    if (many && e.key === "ArrowLeft") { e.preventDefault(); show(current - 1); }
-    else if (many && e.key === "ArrowRight") { e.preventDefault(); show(current + 1); }
+    if (many && e.key === "ArrowLeft") { e.preventDefault(); show(current - 1, -1); }
+    else if (many && e.key === "ArrowRight") { e.preventDefault(); show(current + 1, 1); }
     else if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       const video = slides[current].querySelector("video");
@@ -607,14 +705,59 @@ function createLightbox() {
     image.removeAttribute("src");
   });
 
+  // Opening: the image starts at the size and place of the screenshot you clicked and grows into the viewer.
+  // It starts at once with the copy already on screen (no waiting on the download), then swaps in the
+  // full-size file when that arrives; same picture, so the swap is invisible. If the shapes differ (a cropped
+  // diagram) or nothing is ready within a moment, it just fades in.
+  function growFrom(source, from) {
+    const full = image.src;                                   // render() set the full-size file
+    const quick = source.currentSrc || source.src;
+    if (quick && quick !== full) image.src = quick;
+    image.style.animation = "none";
+
+    const grow = () => {
+      image.style.opacity = "";
+      const to = image.getBoundingClientRect();
+      const sx = from.width / to.width, sy = from.height / to.height;
+      if (!to.width || !to.height || Math.abs(sx / sy - 1) > 0.12) image.style.animation = "";
+      else image.animate(
+        [
+          { transformOrigin: "0 0", transform: `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${(sx + sy) / 2})` },
+          { transformOrigin: "0 0", transform: "none" },
+        ],
+        { duration: 460, easing: "cubic-bezier(0.16, 1, 0.3, 1)" }
+      );
+      if (image.src !== full) {
+        const hi = new Image();
+        hi.src = full;
+        (hi.decode ? hi.decode() : Promise.resolve()).then(() => { if (image.src === quick && items[index]?.img === source) image.src = full; }, () => {});
+      }
+    };
+
+    if (image.complete && image.naturalWidth) { grow(); return; }
+    // Not in the cache after all: wait a moment for it, otherwise fall back to the plain fade
+    image.style.opacity = "0";
+    let settled = false;
+    const timer = setTimeout(() => { if (!settled) { settled = true; image.style.opacity = ""; image.style.animation = ""; } }, 350);
+    (image.decode ? image.decode() : Promise.resolve()).catch(() => {}).then(() => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      grow();
+    });
+  }
+
   return {
     open(list, startIndex, changeCallback) {
       items = list;
       index = startIndex;
       onChange = changeCallback;
+      const source = items[index]?.img;
+      const from = source && source.offsetParent ? source.getBoundingClientRect() : null;
       render();
       if (!dialog.open) dialog.showModal();
       document.getElementById("lbClose").focus();
+      if (from && from.width && from.height && image.animate && !prefersReducedMotion()) growFrom(source, from);
     },
   };
 }
@@ -798,8 +941,17 @@ function setupHeroDepth() {
   update();
 }
 
-/* ---------- Hero name: each letter rises in on load and jumps when you hover it ---------- */
+/* ---------- The drifting mist is the page's only loop: it pauses while the hero is off screen ---------- */
+function setupFogPause() {
+  const hero = document.getElementById("top");
+  if (!hero) return;
+  new IntersectionObserver(([entry]) => hero.classList.toggle("is-away", !entry.isIntersecting)).observe(hero);
+}
+
+/* ---------- Hero name: split into letters so each can surface on load (CSS .hero-name .ch) ---------- */
 function setupNameLetters() {
+  // index.html already splits the name inline, before the first paint; this only runs if that didn't happen
+  if (document.querySelector(".hero-name .ch")) return;
   let index = 0;
   document.querySelectorAll(".hero-name .nm").forEach((word) => {
     const letters = [...word.textContent].map((char) => {

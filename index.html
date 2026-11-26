@@ -71,13 +71,15 @@
         <p class="label hero-corner hero-corner--tl">Web &amp; mobile developer</p>
         <p class="label hero-corner hero-corner--tr">Ormoc City, Philippines</p>
 
-        <!-- The name: each letter comes up out of the fog once, on load (script.js: setupNameLetters) -->
+        <!-- The name: each letter surfaces out of the fog once, on load (CSS .hero-name .ch) -->
         <div class="hero-title">
           <h1 class="hero-name">
             <span class="sr-only">Kisha Kyle Samson</span>
             <span class="nm-line" aria-hidden="true"><span class="nm nm-1">Kisha</span> <span class="nm nm-2">Kyle</span></span>
             <span class="nm-line nm-line--2" aria-hidden="true"><span class="nm nm-3">Samson</span></span>
           </h1>
+          <!-- Split into letters right here, before the first paint, so the name never shows whole and then blinks out -->
+          <script>(function(){var i=0;document.querySelectorAll(".hero-name .nm").forEach(function(w){var t=w.textContent;w.textContent="";for(var k=0;k<t.length;k++){var s=document.createElement("span");s.className="ch";s.textContent=t[k];s.style.setProperty("--ci",i++);w.appendChild(s);}});})();</script>
         </div>
 
         <div class="hero-left">

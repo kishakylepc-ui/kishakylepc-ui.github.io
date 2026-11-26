@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-26T10:43:46+00:00",
+  "generatedAt": "2026-11-26T11:29:58+00:00",
   "title": "Design System: Kisha Kyle Samson — Portfolio",
   "extensions": {
     "colorMeta": {
@@ -404,7 +404,7 @@
       "Do stage each section title differently and keep Cormorant to one or two warm italic words, never in titles' second words, roles or skills.",
       "Do use only Kisha's own photographs, dissolved into the page with masks.",
       "Do keep small text at 4.5:1 or better and touch targets at 44px.",
-      "Do let motion mean noticing: one reveal, the route being drawn, a press that gives."
+      "Do let motion mean noticing: things come into focus once (a blur-to-sharp pull, a rise from behind an edge), the route is drawn as you read, a press gives."
     ],
     "donts": [
       "Don't put a label, number or eyebrow above a heading, or number sections for decoration.",

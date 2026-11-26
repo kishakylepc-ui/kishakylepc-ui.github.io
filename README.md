@@ -52,15 +52,20 @@ Three typefaces, mostly greys, four quiet accents. DESIGN.md is the full referen
   bands of mist in the hero, and one faint coloured light per section.
 
 ### Motion
-- Sections fade up once as you reach them (`.reveal`, hidden only when the script runs, so nothing is lost
-  without JavaScript).
-- Your name comes up letter by letter on load (`setupNameLetters`), and the hero's layers drift a little as you
-  scroll away on wide screens (`setupHeroDepth`).
-- Buttons, filters and gallery controls shrink slightly under a press.
-- Case studies open and close by height; filtered projects fade back in; the screenshot viewer fades in and out.
-- "Copy" swaps to "Copied" with a small slide; the Education route draws as you scroll (`setupRoute`), from
-  the first school down to the awards.
-- Everything shows and nothing moves for visitors who set "reduce motion".
+Everything comes up out of the fog once: a blur-to-sharp pull and a rise from behind an edge.
+- **On load:** your photo pulls into focus, the light behind you comes up, and the letters of your name surface
+  from below an edge (split into letters by a tiny script right after the name in `index.html`); then the words
+  around it fade up. The hero's layers drift a little as you scroll away on wide screens (`setupHeroDepth`).
+- **As you scroll (once each):** section titles rise and come into focus (`setupTitleReveal`); each project's
+  screenshot is uncovered from the top; job bullets, skills and awards come in one after another; other blocks
+  fade up (`.reveal`). Nothing is hidden when JavaScript doesn't run.
+- **When something changes:** filtering projects or skills glides what stays into place (a view transition);
+  gallery slides move the way you pressed; clicking a screenshot grows it into the full-screen viewer; case-study
+  rows follow one another in; on wide screens the menu underline slides to the section you're reading.
+- **Small feedback:** arrows nudge on hover, buttons and filters press in, "Copy" swaps to "Copied"; the
+  Education route draws as you scroll (`setupRoute`).
+- **The mist** is the only loop, and it pauses when the hero is off screen (`setupFogPause`).
+- **Reduce motion:** visitors who ask for it get fades instead of movement, no mist, and every change still shows.
 
 ### Phones and tablets
 - The portrait takes the top 70% of the screen with your name on its lower edge, so the face, the name and

@@ -154,7 +154,12 @@ a { color: var(--ivory); text-decoration-thickness: 1px; text-underline-offset: 
 .skip-link:hover { color: var(--deep-charcoal); }   /* the global a:hover turns links white, which vanishes on ivory */
 
 /* Drawn icons (arrows) share one stroke */
-.link .ico, .hero-link .ico { margin-left: 0.3em; vertical-align: -0.12em; }
+.link .ico, .hero-link .ico { margin-left: 0.3em; vertical-align: -0.12em; transition: transform 0.3s var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  a.link[target="_blank"]:hover .ico, .hero-link:hover .ico { transform: translate(2px, -2px); }   /* leaves the site: up and out */
+  button.link:hover .ico { transform: translateX(3px); }
+  a.link[href="#top"]:hover .ico { transform: translateY(-3px); }
+}
 .ico { width: 1em; height: 1em; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 
 /* Film grain: the one texture that runs through the whole page */
@@ -187,6 +192,12 @@ body::after {
 /* The second word of a title steps down to Regular in Silver ("Selected work", "so far"): contrast by weight, not a second face */
 .display .it { font-family: var(--font-heading); font-style: normal; font-size: 1em; font-weight: 400; letter-spacing: var(--track-display); color: var(--silver); }
 .d-line { display: block; }
+/* Titles surface like the name: each line rises from below an edge and comes into focus, once, when the title
+   scrolls in (script.js: setupTitleReveal wraps each line in .t-mask > .t-in). Without the script, nothing hides. */
+.t-mask { display: block; clip-path: inset(-0.5em -0.4em -0.2em -0.4em); }
+.t-in { display: block; }
+.js .t-host .t-in { opacity: 0; transform: translateY(105%); filter: blur(10px); transition: opacity 0.7s ease, transform 1s var(--ease-out), filter 1s var(--ease-out); transition-delay: calc(var(--li, 0) * 110ms + 80ms); }
+.js .t-host.is-in .t-in { opacity: 1; transform: none; filter: none; }
 .d-indent { padding-left: 0.9em; }
 
 .section-head {
@@ -265,6 +276,7 @@ button.link { background: none; border: 0; cursor: pointer; }
 .reveal { transition: opacity 0.7s var(--ease), transform 0.8s var(--ease-out); }
 .js .reveal { opacity: 0; transform: translateY(16px); }
 .js .reveal.visible { opacity: 1; transform: none; }
+@keyframes fadeIn { from { opacity: 0; } }
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: none; }
@@ -282,6 +294,8 @@ button.link { background: none; border: 0; cursor: pointer; }
   animation: drift 160s linear infinite;
 }
 @keyframes drift { to { transform: translate3d(-50%, 0, 0); } }
+/* The one loop on the page stops while the hero is off screen or the tab is hidden (script.js: setupFogPause) */
+.hero.is-away .fog i { animation-play-state: paused; }
 
 /* ---------- 4. Header ---------- */
 .site-header {
@@ -341,6 +355,15 @@ button.link { background: none; border: 0; cursor: pointer; }
 .nav-links a.active { color: var(--ivory); }
 @media (hover: hover) and (pointer: fine) { .nav-links a:hover { color: var(--ivory); } }
 .nav-links a.active::after { transform: scaleX(1); }
+/* With the script, one shared underline slides from section to section instead (script.js: setupActiveNav) */
+.nav-ink { display: none; }
+@media (min-width: 761px) {
+  .js nav[aria-label="Main"] { position: relative; }
+  .js .nav-ink { display: block; position: absolute; left: 0; top: 0; width: 100px; height: 1px; background: var(--muted-blue); transform-origin: 0 0; opacity: 0; pointer-events: none; transition: transform 0.5s var(--ease-out), opacity 0.3s ease; }
+  .js .nav-ink.is-on { opacity: 1; }
+  .js .nav-ink.is-placing { transition: opacity 0.3s ease; }   /* the first placement appears in place instead of sliding in from the corner */
+  .js .nav-links a::after { display: none; }
+}
 /* Résumé: the one link that leaves the page, so on wide screens it's a small outline button set apart */
 @media (min-width: 761px) {
   .nav-resume { margin-left: clamp(0px, 0.8vw, 10px); }
@@ -405,7 +428,9 @@ button.link { background: none; border: 0; cursor: pointer; }
     rgba(130, 153, 178, 0.09) 52%,
     rgba(83, 103, 125, 0.04) 76%,
     transparent 100%);
+  animation: lightUp 1.8s var(--ease-out) backwards;   /* the light comes up behind the head as the photo focuses */
 }
+@keyframes lightUp { from { opacity: 0; scale: 0.82; } }
 .fog--far { top: 8%; height: 62%; opacity: 0.16; }
 
 .hero-portrait {
@@ -432,11 +457,14 @@ button.link { background: none; border: 0; cursor: pointer; }
     linear-gradient(180deg, #000 52%, rgba(0, 0, 0, 0.6) 72%, transparent 94%),
     radial-gradient(ellipse 66% 92% at 58% 30%, #000 62%, transparent 100%);
   mask-composite: intersect;
-  animation: emerge 1.2s var(--ease-out) both;
+  animation: focusIn 1.3s var(--ease-out) backwards;
 }
-@keyframes emerge {
-  from { opacity: 0; scale: 1.025; }
-  to   { opacity: 1; scale: 1; }
+/* The focal moment, once on load: the photo pulls into focus out of the fog, like a lens finding its subject.
+   "backwards" fill, so nothing (no filter, no scale) stays on the image once it has settled. */
+@keyframes focusIn {
+  from { opacity: 0; scale: 1.06; filter: blur(18px); }
+  45%  { opacity: 1; }
+  to   { opacity: 1; scale: 1; filter: blur(0); }
 }
 
 .hero-front { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
@@ -465,9 +493,9 @@ button.link { background: none; border: 0; cursor: pointer; }
 .hero-corner,
 .hero-left,
 .hero-right { animation: fadeUp 0.9s var(--ease) both; }
-.hero-corner { animation-delay: 0.55s; }
+.hero-corner { animation-delay: 0.75s; }
 
-.hero-left { grid-area: left; align-self: start; max-width: 350px; margin-top: clamp(12px, 7vh, 80px); animation-delay: 0.35s; }
+.hero-left { grid-area: left; align-self: start; max-width: 350px; margin-top: clamp(12px, 7vh, 80px); animation-delay: 0.55s; }
 .hero-tagline {
   margin: 0 0 22px;
   font: 400 clamp(28px, 2.5vw, 38px)/1.06 var(--font-heading);
@@ -479,7 +507,7 @@ button.link { background: none; border: 0; cursor: pointer; }
 .lead a { text-decoration-color: var(--slate-blue); transition: color 0.2s, text-decoration-color 0.2s; }
 @media (hover: hover) and (pointer: fine) { .lead a:hover { color: var(--muted-blue); text-decoration-color: var(--muted-blue); } }
 
-.hero-right { grid-area: right; align-self: end; justify-self: end; width: min(100%, 364px); animation-delay: 0.45s; }   /* wide enough for both buttons + GitHub on one row, and the availability line on one line */
+.hero-right { grid-area: right; align-self: end; justify-self: end; width: min(100%, 364px); animation-delay: 0.65s; }   /* wide enough for both buttons + GitHub on one row, and the availability line on one line */
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
 .hero-actions .btn { min-height: 46px; padding: 0 18px; }
 .availability { display: flex; align-items: center; gap: 10px; margin: 22px 0 0; font-size: 14px; line-height: 1.45; color: var(--text); }
@@ -492,10 +520,16 @@ button.link { background: none; border: 0; cursor: pointer; }
 .nm-line--2 { margin-top: -0.02em; text-align: right; }
 /* One face, one weight, one colour: all three names in Space Grotesk 700 capitals, staggered over two lines */
 .nm { display: inline-block; font-weight: 700; letter-spacing: -0.035em; text-transform: uppercase; color: var(--ivory); }
-/* Each letter (split by script.js) comes up once, on load: quick enough that nothing waits on it */
-.hero-name .ch { display: inline-block; animation: nameIn 0.9s var(--ease-out) both; animation-delay: calc(0.1s + var(--ci, 0) * 28ms); }
+/* Each letter (split by script.js) surfaces once, on load, from below the word's bottom edge (the clip),
+   as if rising out of the mist; it starts while the photo is still coming into focus */
+.nm { clip-path: inset(-0.4em -0.3em 0 -0.3em); }
+/* The browser can paint the heading before the inline script after it has split it into letters; with the
+   script on, a word waits until it has its letters, so the name never shows whole and then blinks out */
+.js .hero-name .nm:not(:has(.ch)) { opacity: 0; }
+.hero-name .ch { display: inline-block; animation: nameIn 0.9s var(--ease-out) backwards; animation-delay: calc(0.25s + var(--ci, 0) * 28ms); }
 @keyframes nameIn {
-  from { opacity: 0; transform: translateY(0.12em); }
+  from { opacity: 0; transform: translateY(100%); }
+  35%  { opacity: 1; }
   to   { opacity: 1; transform: none; }
 }
 
@@ -614,6 +648,11 @@ button.link { background: none; border: 0; cursor: pointer; }
   border-bottom: 1px solid var(--graphite);
 }
 .case-card p { margin: 0; }
+.case-card { opacity: 0; translate: 0 10px; transition: opacity 0.18s ease, translate 0.18s ease; }
+.case-study.is-open .case-card { opacity: 1; translate: none; transition: opacity 0.45s ease, translate 0.6s var(--ease-out); transition-delay: calc(var(--i, 0) * 70ms + 90ms); }
+.case-card:nth-child(2) { --i: 1; }
+.case-card:nth-child(3) { --i: 2; }
+.case-card:nth-child(4) { --i: 3; }
 .case-card .label { padding-top: 5px; }
 .case-card .label.accent { color: var(--pt-text, var(--ivory)); }
 .empty-state { padding: 36px 0; border-top: 1px solid var(--graphite); color: var(--quiet); }
@@ -633,8 +672,12 @@ button.link { background: none; border: 0; cursor: pointer; }
   touch-action: pan-y;
   isolation: isolate;
   box-shadow: 0 40px 80px -48px rgba(0, 0, 0, 0.9);
-  transition: border-color 0.6s ease;
+  transition: border-color 0.6s ease, clip-path 1.2s var(--ease-out) 0.15s;
 }
+/* Once per project: the screenshot is uncovered from the top as the project comes into view (the end state
+   reaches past the frame so the shadow isn't cut off) */
+.js .project .stage { clip-path: inset(0 0 100% 0); }
+.js .project.visible .stage { clip-path: inset(-12% -12% -40% -12%); }
 /* The project you're reading gets a frame in its own ink */
 .project.is-current .stage { border-color: color-mix(in srgb, var(--pt) 55%, var(--graphite)); }
 .stage img { -webkit-user-drag: none; user-select: none; }
@@ -649,10 +692,20 @@ button.link { background: none; border: 0; cursor: pointer; }
   min-height: 0;
   height: 100%;
   opacity: 0;
-  transition: opacity 0.35s ease, display 0.35s allow-discrete;
+  transition: opacity 0.35s ease, translate 0.5s var(--ease-out), scale 1.4s var(--ease-out), display 0.5s allow-discrete;
 }
 .slide.is-active { display: block; opacity: 1; }
 @starting-style { .slide.is-active { opacity: 0; } }
+/* Slides move the way you pressed (script.js sets data-dir): Next pushes the old one out to the left and
+   brings the new one in from the right; Previous the other way */
+.stage[data-dir="next"] .slide:not(.is-active) { translate: -8% 0; }
+.stage[data-dir="prev"] .slide:not(.is-active) { translate: 8% 0; }
+@starting-style {
+  .stage[data-dir="next"] .slide.is-active { translate: 8% 0; }
+  .stage[data-dir="prev"] .slide.is-active { translate: -8% 0; }
+}
+/* the first screenshot settles from a slight zoom while it's uncovered */
+.js .project:not(.visible) .slide { scale: 1.06; }
 
 .browser { height: 100%; display: flex; flex-direction: column; }
 .window-bar { display: flex; align-items: center; gap: 10px; flex: none; height: 30px; padding: 0 12px; background: var(--charcoal); border-bottom: 1px solid var(--graphite); }
@@ -796,6 +849,13 @@ html:has(.lightbox[open]) { overflow: hidden; }
 .what ul li { position: relative; padding-left: 26px; }
 .what ul li::before { content: ""; position: absolute; left: 0; top: 0.82em; width: 12px; height: 1px; background: var(--slate-blue); }
 .what ul li + li { margin-top: 8px; }
+/* Lists inside a revealed block come in as lists: each item a beat after the one before (script.js sets --i) */
+.js .reveal .what li,
+.js .skill-group.reveal .skill,
+.js .reveal .award { opacity: 0; translate: 0 0.5em; transition: opacity 0.5s ease, translate 0.7s var(--ease-out); transition-delay: calc(var(--i, 0) * 55ms + 180ms); }
+.js .reveal.visible .what li,
+.js .skill-group.reveal.visible .skill,
+.js .reveal.visible .award { opacity: 1; translate: none; }
 
 /* ---------- 8. Skills: ruled rows, one per group ---------- */
 .skills { position: relative; background: radial-gradient(ellipse 50% 14% at 50% 6%, rgba(145, 134, 159, 0.09), transparent 100%), var(--deep-charcoal); }
@@ -947,6 +1007,16 @@ mark {
 }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
+/* Filtering projects or skills runs as a view transition where the browser supports one: the items that stay
+   glide to their new places, the ones that go fade out quickly. The page itself doesn't crossfade. */
+::view-transition-group(*) { animation-duration: 0.5s; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+::view-transition-old(*) { animation-duration: 0.2s; }
+::view-transition-new(*) { animation-duration: 0.45s; }
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; }
+html.vt .project,
+html.vt .skill-group { transition: none; }   /* the view transition carries the motion, not the items' own fade */
+
 /* ---------- 13. Touch ---------- */
 /* Taps give feedback instead of hover; no grey flash, no double-tap zoom delay */
 a, button { touch-action: manipulation; }   /* not .stage: it keeps pan-y so a sideways swipe reaches the gallery */
@@ -1048,7 +1118,7 @@ button, .btn, .chip, .g-thumb, .work-index a, .nav-links a { -webkit-user-select
   .hero-tagline,
   .hero-actions,
   .availability,
-  .lead { animation: fadeUp 0.8s var(--ease) 0.35s both; }
+  .lead { animation: fadeUp 0.8s var(--ease) 0.55s both; }
 
   /* The bar becomes solid as soon as the page moves */
   .site-header.scrolled { background: rgba(21, 22, 25, 0.9); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom-color: var(--graphite); }
@@ -1187,12 +1257,27 @@ button, .btn, .chip, .g-thumb, .work-index a, .nav-links a { -webkit-user-select
   .btn-row .btn { flex: 1 1 auto; }
 }
 
-/* ---------- 15. Reduced motion: everything shows, nothing moves ---------- */
+/* ---------- 15. Reduced motion: nothing travels, things fade; every state change still shows ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; transition-delay: 0s !important; }
-  .js .reveal { opacity: 1; transform: none; }
-  .nav-links li { opacity: 1; transform: none; }
-  .btn:active, .chip:active, .g-btn:active, .lb-btn:active, .menu-toggle:active, .g-thumb:active { transform: none; }
-  /* colour and state still change, just instantly; the case study still opens */
+  /* entrances become plain fades */
+  .hero-portrait img, .fog-light, .hero-name .ch, .hero-corner, .hero-left, .hero-right, .lead, .lb-frame img { animation-name: fadeIn; }
+  .fog i { animation: none; }                                   /* the drifting mist stops */
+  .js .reveal { transform: none; }
+  .js .t-host .t-in { transform: none; filter: none; transition: opacity 0.6s ease; }
+  .js .project .stage { clip-path: none; }
+  .js .project:not(.visible) .slide { scale: none; }
+  .stage[data-dir] .slide { translate: none; }
+  @starting-style { .stage[data-dir] .slide.is-active { translate: none; } }
+  .project, .skill-group { translate: none; }
+  @starting-style { .project, .skill-group { translate: none; } }
+  .case-card, .js .reveal .what li, .js .skill-group.reveal .skill, .js .reveal .award { translate: none; }
+  .case-study, .case-study.is-open { transition: opacity 0.2s ease; }
+  .nav-links li { transform: none; }
+  .toast { transform: translate(-50%, 0); }
+  .slide-doc .browser img { transition: none; }
+  /* presses and hovers keep their colour change, without moving */
+  .btn:active, .chip:active, .g-btn:active, .lb-btn:active, .menu-toggle:active, .g-thumb:active, .nav-links .nav-cta:active { transform: none; }
+  .btn:hover .btn-arrow, .link:hover .ico, .hero-link:hover .ico { transform: none; }
+  .js .nav-ink { transition: opacity 0.2s ease; }
 }
