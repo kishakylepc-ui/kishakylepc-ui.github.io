@@ -2,8 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Kisha Kyle Samson — Résumé</title>
+  <meta name="theme-color" content="#151619">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <!-- Site fonts for the on-screen bar only; the résumé itself stays in Garamond for print and the PDF -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- EB Garamond is the fallback for devices without a system Garamond (phones, most Macs);
+       Garamond stays first in the stack, so the PDF made on a machine that has it is unchanged. -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
   <!--
     Harvard-format résumé. Edit the text below, then rebuild Kisha-Kyle-Samson-Resume.pdf (same folder)
     (open this file in Chrome → Ctrl+P → "Save as PDF", margins "Default").
@@ -13,9 +21,12 @@
 
     :root { --ink: #111; --rule: #111; }
     * { box-sizing: border-box; }
-    html { background: #e9e9ec; }
-    body {
-      margin: 32px auto;
+    /* On screen: the white page sits on the portfolio's Deep Charcoal, under a slim bar in the site's type.
+       In print (and the PDF) only the page is output, exactly as before. */
+    html { background: #151619; -webkit-tap-highlight-color: transparent; scrollbar-color: #303338 #151619; }
+    body { margin: 0; padding: 0 16px 48px; }
+    .paper {
+      margin: 0 auto;
       max-width: 8.5in;
       padding: 0.5in 0.65in;
       background: #fff;
@@ -23,14 +34,42 @@
       font-family: Garamond, "EB Garamond", "Times New Roman", serif;
       font-size: 11pt;
       line-height: 1.2;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+      box-shadow: 0 40px 80px -48px rgba(0, 0, 0, 0.9);
     }
+    .screen-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px 16px;
+      max-width: 8.5in;
+      margin: 0 auto;
+      padding: max(14px, env(safe-area-inset-top)) 0 14px;
+      font: 500 14px/1.2 "DM Sans", sans-serif;
+    }
+    .screen-bar a { color: #EAE7E1; text-decoration: none; touch-action: manipulation; -webkit-user-select: none; user-select: none; }
+    .back { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-family: "Space Grotesk", sans-serif; letter-spacing: -0.02em; }
+    .back svg, .download svg { width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .back span { color: #8C9298; }
+    .download { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 18px; border-radius: 2px; background: #EAE7E1; color: #151619 !important; transition: background 0.25s, transform 160ms cubic-bezier(0.16, 1, 0.3, 1); }
+    .download:active { transform: scale(0.97); background: #C5AE91; }
+    @media (hover: hover) and (pointer: fine) { .download:hover { background: #C5AE91; } .back:hover span { color: #EAE7E1; } }
+    .screen-bar a:focus-visible { outline: 2px solid #8299B2; outline-offset: 3px; }
+    ::selection { background: #C5AE91; color: #151619; }
     @media print {
       html { background: none; }
-      body { margin: 0; padding: 0; max-width: none; box-shadow: none; }
+      body { padding: 0; }
+      .screen-bar { display: none; }
+      .paper { margin: 0; padding: 0; max-width: none; box-shadow: none; }
     }
     @media (max-width: 700px) {
-      body { margin: 0; padding: 24px 18px; box-shadow: none; }
+      body { padding: 0 0 32px; }
+      .screen-bar { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
+      .paper { padding: 24px 18px; box-shadow: none; }
+      /* on a phone the right-hand dates and stacks drop under their line instead of running off the page */
+      .paper .row { flex-wrap: wrap; gap: 0 12pt; }
+      .paper .row > :last-child { white-space: normal; text-align: left; }
+      .contact { line-height: 1.5; }
     }
 
     header { text-align: center; margin-bottom: 6pt; }
@@ -62,11 +101,16 @@
   </style>
 </head>
 <body>
+  <nav class="screen-bar" aria-label="Résumé">
+    <a class="back" href="../index.html"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14 8H3M7 4L3 8l4 4"/></svg>Kisha Kyle Samson <span>· portfolio</span></a>
+    <a class="download" href="Kisha-Kyle-Samson-Resume.pdf" download>Download PDF <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v9M4 7l4 4 4-4M3 14h10"/></svg></a>
+  </nav>
+  <main class="paper">
 
   <header>
     <h1>KISHA KYLE SAMSON</h1>
     <p class="contact">
-      Ormoc City, Leyte, Philippines&nbsp;•&nbsp;<a href="tel:+639501796797">0950 179 6797</a>&nbsp;•&nbsp;<a href="mailto:kishakylepc@gmail.com">kishakylepc@gmail.com</a>&nbsp;•&nbsp;<a href="https://github.com/kishakylepc-ui">github.com/kishakylepc-ui</a>
+      Ormoc City, Leyte, Philippines • <a href="tel:+639501796797">0950 179 6797</a> • <a href="mailto:kishakylepc@gmail.com">kishakylepc@gmail.com</a> • <a href="https://github.com/kishakylepc-ui">github.com/kishakylepc-ui</a>
     </p>
   </header>
 
@@ -159,5 +203,6 @@
     <p class="plain"><b>Interests:</b> AI, game development, mobile development</p>
   </section>
 
+  </main>
 </body>
 </html>

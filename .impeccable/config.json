@@ -1,0 +1,32 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "space grotesk",
+        "createdAt": "2026-11-26T05:09:53.001Z",
+        "reason": "Pinned by the owner's brief (Space Grotesk / DM Sans / Cormorant Garamond are mandatory)"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          "resume/resume.html"
+        ],
+        "createdAt": "2026-11-26T05:14:09.351Z",
+        "reason": "Printable Harvard-format résumé: Garamond on white by design, outside the site's type system (see DESIGN.md, The résumé page)"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "resume/resume.html"
+        ],
+        "createdAt": "2026-11-26T05:14:09.456Z",
+        "reason": "Printable résumé page is white paper by design (see DESIGN.md, The résumé page)"
+      }
+    ]
+  }
+}

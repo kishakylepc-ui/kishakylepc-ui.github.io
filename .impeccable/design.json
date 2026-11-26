@@ -1,0 +1,419 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-26T10:43:46+00:00",
+  "title": "Design System: Kisha Kyle Samson — Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "deep-charcoal": {
+        "role": "neutral",
+        "displayName": "Deep Charcoal",
+        "canonical": "oklch(20.0% 0.006 271)",
+        "tonalRamp": [
+          "#0B0B0D",
+          "#242527",
+          "#414245",
+          "#606165",
+          "#818286",
+          "#A4A5A8",
+          "#C8C9CC",
+          "#EDEEF1"
+        ]
+      },
+      "charcoal": {
+        "role": "neutral",
+        "displayName": "Charcoal",
+        "canonical": "oklch(23.0% 0.007 258)",
+        "tonalRamp": [
+          "#0A0B0D",
+          "#242527",
+          "#404245",
+          "#5F6165",
+          "#808286",
+          "#A3A5A8",
+          "#C7C9CC",
+          "#EDEEF1"
+        ]
+      },
+      "graphite": {
+        "role": "neutral",
+        "displayName": "Graphite",
+        "canonical": "oklch(32.0% 0.010 261)",
+        "tonalRamp": [
+          "#0A0B0E",
+          "#232528",
+          "#404246",
+          "#5E6167",
+          "#7F8288",
+          "#A2A5AA",
+          "#C7C9CE",
+          "#ECEFF2"
+        ]
+      },
+      "mist-gray": {
+        "role": "neutral",
+        "displayName": "Mist Gray",
+        "canonical": "oklch(58.7% 0.012 248)",
+        "tonalRamp": [
+          "#090B0E",
+          "#222529",
+          "#3E4347",
+          "#5C6267",
+          "#7D8389",
+          "#A1A6AB",
+          "#C5CACE",
+          "#EBEFF3"
+        ]
+      },
+      "quiet-gray": {
+        "role": "neutral",
+        "displayName": "Quiet Gray",
+        "canonical": "oklch(65.7% 0.011 248)",
+        "tonalRamp": [
+          "#090B0E",
+          "#222529",
+          "#3E4247",
+          "#5D6267",
+          "#7D8389",
+          "#A1A6AB",
+          "#C5CACE",
+          "#EBEFF3"
+        ]
+      },
+      "silver": {
+        "role": "neutral",
+        "displayName": "Silver",
+        "canonical": "oklch(81.5% 0.007 248)",
+        "tonalRamp": [
+          "#0A0B0D",
+          "#232527",
+          "#404245",
+          "#5E6265",
+          "#7F8386",
+          "#A2A5A8",
+          "#C7C9CC",
+          "#ECEFF1"
+        ]
+      },
+      "paragraph-ivory": {
+        "role": "neutral",
+        "displayName": "Paragraph Ivory",
+        "canonical": "oklch(79.9% 0.006 85)",
+        "tonalRamp": [
+          "#0C0B0A",
+          "#262523",
+          "#43423F",
+          "#63615E",
+          "#84827F",
+          "#A6A5A2",
+          "#CAC9C6",
+          "#EFEEEC"
+        ]
+      },
+      "soft-ivory": {
+        "role": "neutral",
+        "displayName": "Soft Ivory",
+        "canonical": "oklch(92.9% 0.009 85)",
+        "tonalRamp": [
+          "#0C0B09",
+          "#262522",
+          "#44423E",
+          "#63615C",
+          "#84827D",
+          "#A7A5A0",
+          "#CBC9C5",
+          "#F0EEEB"
+        ]
+      },
+      "warm-champagne": {
+        "role": "primary",
+        "displayName": "Warm Champagne",
+        "canonical": "oklch(76.3% 0.048 73)",
+        "tonalRamp": [
+          "#120901",
+          "#2F2312",
+          "#4F3F2B",
+          "#715E45",
+          "#937F65",
+          "#B4A28B",
+          "#D7C6B2",
+          "#FAECDB"
+        ]
+      },
+      "muted-blue": {
+        "role": "secondary",
+        "displayName": "Muted Blue",
+        "canonical": "oklch(67.4% 0.045 251)",
+        "tonalRamp": [
+          "#040C16",
+          "#192634",
+          "#334455",
+          "#4F6379",
+          "#70859B",
+          "#94A7BC",
+          "#BBCBDD",
+          "#E2F0FF"
+        ]
+      },
+      "dusty-lavender": {
+        "role": "tertiary",
+        "displayName": "Dusty Lavender",
+        "canonical": "oklch(63.8% 0.039 305)",
+        "tonalRamp": [
+          "#0D0913",
+          "#282230",
+          "#463E50",
+          "#665C72",
+          "#877D94",
+          "#AAA0B5",
+          "#CDC5D8",
+          "#F2EBFB"
+        ]
+      },
+      "slate-blue": {
+        "role": "tertiary",
+        "displayName": "Slate Blue",
+        "canonical": "oklch(50.6% 0.043 251)",
+        "tonalRamp": [
+          "#040C15",
+          "#1A2633",
+          "#344354",
+          "#516378",
+          "#71849A",
+          "#96A7BB",
+          "#BCCBDC",
+          "#E3F0FF"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Section titles, staged differently in every section."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Project names."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Job titles and school names."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Paragraphs and descriptions."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "The opening paragraph of About."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Spaced capitals in the margin: section numbers, kickers, captions."
+      },
+      "accent": {
+        "displayName": "Accent",
+        "purpose": "Cormorant Garamond italic for one or two words at a time."
+      }
+    },
+    "shadows": [
+      {
+        "name": "print",
+        "value": "0 40px 80px -48px rgba(0, 0, 0, 0.9)",
+        "purpose": "Under screenshot frames only, so screens sit on the page like prints."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.2, 0.7, 0.2, 1)",
+        "purpose": "State transitions: colour, border, small movements."
+      },
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Entrances: reveals and words rising into titles."
+      },
+      {
+        "name": "reveal",
+        "value": "opacity 0.7s, transform 0.8s (16px rise)",
+        "purpose": "Sections coming into view, once; hidden only when the script runs."
+      },
+      {
+        "name": "press",
+        "value": "scale(0.97), 160ms ease-out",
+        "purpose": "Every button, filter and gallery control under a press."
+      },
+      {
+        "name": "case-study",
+        "value": "grid-template-rows 0fr to 1fr, 320ms open / 200ms close",
+        "purpose": "Case studies open and close by height."
+      },
+      {
+        "name": "mist-drift",
+        "value": "160s linear infinite",
+        "purpose": "The hero's two fog bands; the only looping motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide",
+        "value": "1240px"
+      },
+      {
+        "name": "narrow-laptop",
+        "value": "1100px"
+      },
+      {
+        "name": "stack",
+        "value": "900px"
+      },
+      {
+        "name": "phone",
+        "value": "760px"
+      },
+      {
+        "name": "phone-type",
+        "value": "560px"
+      },
+      {
+        "name": "small-phone",
+        "value": "400px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one solid action per view (See my work, Copy email).",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">See my work <span>&rarr;</span></a>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border:1px solid transparent;border-radius:2px;background:var(--ivory,#EAE7E1);color:var(--deep-charcoal,#151619);font:500 14.5px/1 'DM Sans',sans-serif;text-decoration:none;transition:background .25s,transform 160ms cubic-bezier(.16,1,.3,1)}.ds-btn-primary:hover,.ds-btn-primary:active{background:var(--champagne,#C5AE91)}.ds-btn-primary:active{transform:scale(.97)}.ds-btn-primary:focus-visible{outline:1px solid var(--muted-blue,#8299B2);outline-offset:4px}"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary actions beside the primary (Résumé, GitHub, email).",
+      "html": "<a class=\"ds-btn-outline\" href=\"#\">Résumé</a>",
+      "css": ".ds-btn-outline{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border:1px solid var(--mist-gray,#777D83);border-radius:2px;background:transparent;color:var(--ivory,#EAE7E1);font:500 14.5px/1 'DM Sans',sans-serif;text-decoration:none;transition:border-color .25s,transform 160ms cubic-bezier(.16,1,.3,1)}.ds-btn-outline:hover,.ds-btn-outline:active{border-color:var(--muted-blue,#8299B2)}.ds-btn-outline:active{transform:scale(.97)}.ds-btn-outline:focus-visible{outline:1px solid var(--muted-blue,#8299B2);outline-offset:4px}"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Project and skill filters; the active one is the page's only accent fill.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip is-active\">All</button><button class=\"ds-chip\">Web</button><button class=\"ds-chip\">Mobile</button></div>",
+      "css": ".ds-chips{display:flex;gap:6px}.ds-chip{min-height:44px;min-width:44px;padding:0 14px;border:1px solid var(--graphite,#303338);border-radius:2px;background:transparent;color:var(--silver,#BFC3C7);font:500 13.5px/1 'DM Sans',sans-serif;cursor:pointer}.ds-chip:hover{border-color:var(--muted-blue,#8299B2);color:var(--ivory,#EAE7E1)}.ds-chip.is-active{background:var(--muted-blue,#8299B2);border-color:var(--muted-blue,#8299B2);color:var(--deep-charcoal,#151619)}.ds-chip:focus-visible{outline:1px solid var(--muted-blue,#8299B2);outline-offset:4px}"
+    },
+    {
+      "name": "Text Link",
+      "kind": "custom",
+      "refersTo": "link",
+      "description": "Inline actions (See the system flow, Live demo).",
+      "html": "<a class=\"ds-link\" href=\"#\">Live demo &#8599;</a>",
+      "css": ".ds-link{font:500 14.5px/1.2 'DM Sans',sans-serif;color:var(--ivory,#EAE7E1);text-decoration:underline;text-decoration-color:var(--slate-blue,#53677D);text-underline-offset:.35em}.ds-link:hover{color:var(--muted-blue,#8299B2);text-decoration-color:var(--muted-blue,#8299B2)}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Section links without numbers; the active one gets a Muted Blue underline.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\">Work</a><a class=\"active\" href=\"#\">Experience</a><a href=\"#\">Skills</a></nav>",
+      "css": ".ds-nav{display:flex;gap:28px;background:var(--deep-charcoal,#151619);padding:16px}.ds-nav a{position:relative;display:inline-flex;align-items:baseline;gap:5px;padding:10px 0;font:500 14px/1 'DM Sans',sans-serif;color:var(--silver,#BFC3C7);text-decoration:none}.ds-nav a.active{color:var(--ivory,#EAE7E1)}.ds-nav a.active::after{content:'';position:absolute;left:0;right:0;bottom:3px;height:1px;background:var(--muted-blue,#8299B2)}"
+    },
+    {
+      "name": "Section Title",
+      "kind": "custom",
+      "refersTo": "display",
+      "description": "A staged display title with one italic word; its intro sits beside it, never a label above it.",
+      "html": "<div class=\"ds-head\"><h2 class=\"ds-display\">Selected <em>work</em></h2><p class=\"ds-intro\">From a blood-donor app to the planner I use every day.</p></div>",
+      "css": ".ds-head{background:var(--deep-charcoal,#151619);padding:24px}.ds-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}.ds-intro{max-width:30ch;margin:0;font:400 16px/1.55 'DM Sans',sans-serif;color:var(--text,#BFBDB9)}.ds-display{margin:0;font:700 72px/.92 'Space Grotesk',sans-serif;letter-spacing:-.04em;color:var(--ivory,#EAE7E1)}.ds-display em{font:italic 400 1.14em 'Cormorant Garamond',serif;letter-spacing:-.03em;color:var(--lavender,#91869F)}"
+    },
+    {
+      "name": "Case Study Rows",
+      "kind": "card",
+      "refersTo": "case-study",
+      "description": "Three ruled rows with the label in the margin; no cards.",
+      "html": "<div class=\"ds-case\"><div><p>Problem</p><p>Every client had their own spreadsheet.</p></div><div><p class=\"out\">Outcome</p><p>One live ledger replaced them.</p></div></div>",
+      "css": ".ds-case{border-top:1px solid var(--graphite,#303338);background:var(--deep-charcoal,#151619);color:var(--text,#BFBDB9);font:400 16px/1.65 'DM Sans',sans-serif}.ds-case>div{display:grid;grid-template-columns:140px 1fr;gap:24px;padding:18px 0;border-bottom:1px solid var(--graphite,#303338)}.ds-case p{margin:0}.ds-case>div>p:first-child{font:500 11px/1.5 'DM Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--mist-gray,#777D83);padding-top:4px}.ds-case .out{color:var(--muted-blue,#8299B2)!important}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Field Notes in the Fog",
+    "overview": "A working journal kept in bad weather. The page is dark and quiet like a foggy morning on the Ormoc coast, and on it sit plainly written notes about real tools: what the problem was, what got built, what happened. Kisha's own photographs are the weather; typography does the talking; colour appears only where a note has been underlined in pen.\n\nDensity is low and deliberate, and the hierarchy is steep: one thing on the page is giant (the name), everything else steps down so the evidence, the projects, arrives fast. Each section stages its title its own way, uses ruled rows instead of boxes, and keeps its small labels beside or below what they describe. Motion is the act of noticing: things come up into focus once, a route line is drawn as you read, controls give under a press. Nothing loops for attention except the mist.\n\nComponents are tactile and confident within that restraint: flat, nearly square, firmly outlined, with an obvious press, never glassy or rounded.",
+    "keyCharacteristics": [
+      "Dark neutrals carry roughly 90% of every screen; four accents each do one job.",
+      "Three typefaces with fixed roles: Space Grotesk speaks, DM Sans explains, Cormorant Garamond italic underlines a few warm personal phrases.",
+      "One giant moment: the name, in Space Grotesk 700 capitals.",
+      "Real photographs of Kisha in their own natural colour, dissolving into the page with masks rather than sitting in frames.",
+      "Hairlines and ruled rows instead of cards; corners of 2px.",
+      "No labels above headings and no decorative numbering."
+    ],
+    "rules": [
+      {
+        "name": "The Pen Rule",
+        "body": "Accents mark; they never fill. Except the single active filter, no accent is used as a background, and the dark neutrals stay at roughly 90% of any screen.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Job Rule",
+        "body": "Each accent has one meaning (champagne = warmth, muted blue = interaction, lavender = CompAcc's ink, slate = structure). Don't borrow one for another job because it looks nice there.",
+        "section": "colors"
+      },
+      {
+        "name": "The Per-Project Ink Rule",
+        "body": "Each project has its own accent for its kind line, index progress bar, current-project frame and \"Outcome\" label: Hemo Hero champagne, OA Ledger muted blue, CompAcc POS lavender, Ledger//Life slate (muted blue where text must be read).",
+        "section": "colors"
+      },
+      {
+        "name": "The 4.5 Rule",
+        "body": "Small text is Quiet Gray or lighter. Mist Gray and Slate Blue never set small text.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Moment Rule",
+        "body": "Only the name is set at mega size. A second giant line on the page means the hierarchy has flattened.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Kicker Rule",
+        "body": "No label, number or eyebrow sits above a heading. A heading speaks for itself; its label goes below it or in the margin beside it.",
+        "section": "typography"
+      },
+      {
+        "name": "The Margin Note Rule",
+        "body": "Cormorant Garamond appears only in italics, only for a word or short phrase, and only in a warm or neutral colour. Headings (section titles, project names and their second names such as \"Ledger//Life\"), job roles and skills never use it; there, contrast comes from weight.",
+        "section": "typography"
+      },
+      {
+        "name": "The Staged Title Rule",
+        "body": "No two section titles share a treatment: \"Selected work\" on one line (Bold, then Regular Silver) with the intro beside it; \"Experience\" in 600; \"Skills\" in 400; \"About\" in 500, a size up; \"The route, / so far\" stepped (Bold, then Regular Silver). The tracking floor is −0.04em.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Light Rule",
+        "body": "Only the hero has a visible light source; elsewhere light is ambient and barely there.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep dark neutrals at about 90% of every screen and give each accent its one job.",
+      "Do keep one giant moment: the name.",
+      "Do use ruled rows, hairlines and margin labels instead of cards.",
+      "Do stage each section title differently and keep Cormorant to one or two warm italic words, never in titles' second words, roles or skills.",
+      "Do use only Kisha's own photographs, dissolved into the page with masks.",
+      "Do keep small text at 4.5:1 or better and touch targets at 44px.",
+      "Do let motion mean noticing: one reveal, the route being drawn, a press that gives."
+    ],
+    "donts": [
+      "Don't put a label, number or eyebrow above a heading, or number sections for decoration.",
+      "Don't add floating shapes, glowing orbs, particles, cursor effects or icons that only decorate.",
+      "Don't put glass on cards; it belongs only to the bar that content scrolls beneath.",
+      "Don't use rounded cards, pill buttons or three-card grids.",
+      "Don't fill with accent colour except the one active filter; don't use gradients brighter than 12% opacity.",
+      "Don't set Mist Gray or Slate Blue small text.",
+      "Don't use stock or AI-generated people, or typed characters as icons."
+    ]
+  }
+}

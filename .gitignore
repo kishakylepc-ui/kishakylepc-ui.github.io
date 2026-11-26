@@ -1,3 +1,6 @@
 # Untouched original photos: kept locally only. They hold the GPS location the phone recorded,
 # and the site only uses the toned copies in assets/img/portrait/.
 assets/img/portrait/originals/
+
+# Impeccable runtime cache (the critique/ and audit/ folders ignore themselves)
+.impeccable/hook.cache.json
